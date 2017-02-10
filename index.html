@@ -4,10 +4,8 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
-
-    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
-    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+    <title>API Documentation</title>
+    <link href="images/favicon.ico" rel="icon" type="image/ico" />
     <style>
       .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
@@ -16,11 +14,11 @@
   background-color: #272822;
 }
 .highlight .err {
-  color: #151515;
-  background-color: #ac4142;
+  color: #272822;
+  background-color: #f92672;
 }
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
-  color: #505050;
+  color: #75715e;
 }
 .highlight .cp {
   color: #f4bf75;
@@ -29,45 +27,45 @@
   color: #f4bf75;
 }
 .highlight .o, .highlight .ow {
-  color: #d0d0d0;
+  color: #f8f8f2;
 }
 .highlight .p, .highlight .pi {
-  color: #d0d0d0;
+  color: #f8f8f2;
 }
 .highlight .gi {
-  color: #90a959;
+  color: #a6e22e;
 }
 .highlight .gd {
-  color: #ac4142;
+  color: #f92672;
 }
 .highlight .gh {
-  color: #6a9fb5;
-  background-color: #151515;
+  color: #66d9ef;
+  background-color: #272822;
   font-weight: bold;
 }
 .highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
-  color: #aa759f;
+  color: #ae81ff;
 }
 .highlight .kc {
-  color: #d28445;
+  color: #fd971f;
 }
 .highlight .kt {
-  color: #d28445;
+  color: #fd971f;
 }
 .highlight .kd {
-  color: #d28445;
+  color: #fd971f;
 }
 .highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
-  color: #90a959;
+  color: #a6e22e;
 }
 .highlight .sr {
-  color: #75b5aa;
+  color: #a1efe4;
 }
 .highlight .si {
-  color: #8f5536;
+  color: #cc6633;
 }
 .highlight .se {
-  color: #8f5536;
+  color: #cc6633;
 }
 .highlight .nn {
   color: #f4bf75;
@@ -79,269 +77,332 @@
   color: #f4bf75;
 }
 .highlight .na {
-  color: #6a9fb5;
+  color: #66d9ef;
 }
 .highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
-  color: #90a959;
+  color: #a6e22e;
 }
 .highlight .ss {
-  color: #90a959;
+  color: #a6e22e;
 }
     </style>
-      <script src="javascripts/all.js"></script>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all_nosearch.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;]">
+  <body class="index" data-languages="[]">
     <a href="#" id="nav-button">
       <span>
         NAV
-        <img src="images/navbar.png" />
+        <img src="images/navbar.png" alt="Navbar" />
       </span>
     </a>
     <div class="tocify-wrapper">
-      <img src="images/logo.png" />
-        <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-        </div>
-        <div class="search">
-          <input type="text" class="search" id="input-search" placeholder="Search">
-        </div>
-        <ul class="search-results"></ul>
+      <div class="logo">
+        <img src="images/logo.png" alt="Logo" />
+        <div>coinpit api</div>
+      </div>
       <div id="toc">
       </div>
-        <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
-        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="introduction">Introduction</h1>
+        <h1 id="loginless-authentication">Loginless Authentication</h1>
 
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Loginless Authentication is a zero-knowledge authentication system, which relies on ECDSA. The scheme involves arriving at a shared secret using your private key and the public key of the peer. Every request is HMAC authenticated using this shared secret.</p>
 
-<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<h2 id="benefits">Benefits</h2>
 
-<p>This example API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&rsquo;s documentation.</p>
+<p>Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: Session Hijacking, Some kinds of replay attacks, Cookie sniffing and some XSS and XSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as Heartbleed bug</p>
 
-<h1 id="authentication">Authentication</h1>
+<h2 id="scheme">Scheme</h2>
 
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h3 id="overview">Overview</h3>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
+<p>Loginless requires you to set the Authorization header in HTTP for protected endpoints:</p>
+
+<h3 id="authorization-lt-user_id-gt-lt-hmac-gt">Authorization &lt;user_id&gt;:&lt;hmac&gt;</h3>
+<pre class="highlight plaintext"><code>Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
+Nonce 1478041315653
 </code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<h3 id="setup-ecdh">Setup ECDH</h3>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
+<p>Getting the corresponding public address of the server for your personal public address:</p>
+
+<p>GET /api/v1/auth/:my_public_key</p>
+<pre class="highlight plaintext"><code>Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk
+
+GET api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37
+
+{
+"serverPublicKey": "03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7"
+"userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk",
+// other fields
+}
 </code></pre>
-<pre class="highlight shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
+<p>You also get the server clock in the Server-Time header. If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests.</p>
+<pre class="highlight plaintext"><code>Server-Time 1478041315780
 </code></pre>
-
-<blockquote>
-<p>Make sure to replace <code class="prettyprint">meowmeowmeow</code> with your API key.</p>
-</blockquote>
-
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
-
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-
-<p><code class="prettyprint">Authorization: meowmeowmeow</code></p>
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-<h1 id="kittens">Kittens</h1>
-
-<h2 id="get-all-kittens">Get All Kittens</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
+<h3 id="compute-shared-secret">Compute Shared Secret</h3>
+<pre class="highlight plaintext"><code>// Programming language specific
+sharedSecret = ECDH(myPrivateKey, serverPublicKey)
 </code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<h3 id="compute-hmac-authorization-for-all-subsequent-requests">Compute HMAC authorization for all subsequent requests</h3>
+<pre class="highlight javascript"><code> <span class="kd">function</span> <span class="nx">getAuthorization</span><span class="p">(</span><span class="nx">userId</span><span class="p">,</span> <span class="nx">secret</span><span class="p">,</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">uri</span><span class="p">,</span> <span class="nx">body</span><span class="p">,</span> <span class="nx">nonce</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">secret</span><span class="p">)</span> <span class="k">return</span> <span class="s1">'HMAC '</span> <span class="o">+</span> <span class="nx">userId</span>
+    <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span> <span class="na">method</span><span class="p">:</span> <span class="nx">method</span><span class="p">,</span> <span class="na">uri</span><span class="p">:</span> <span class="nx">uri</span><span class="p">,</span> <span class="na">body</span><span class="p">:</span> <span class="nx">body</span><span class="p">,</span> <span class="na">nonce</span><span class="p">:</span> <span class="nx">nonce</span> <span class="p">})</span>
+    <span class="kd">var</span> <span class="nx">hmac</span>    <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">secret</span><span class="p">,</span> <span class="s1">'hex'</span><span class="p">))</span>
+    <span class="nx">hmac</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">'HMAC '</span> <span class="o">+</span> <span class="nx">userId</span> <span class="o">+</span> <span class="s2">":"</span> <span class="o">+</span> <span class="nx">hmac</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span>
+  <span class="p">}</span>
 </code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
+<h3 id="send-request-using-authorization-and-nonce-headers">Send request using Authorization and nonce headers</h3>
+<pre class="highlight plaintext"><code>curl -H 'Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3' -H 'Nonce 1478041315653' https://live.coinpit.me/api/v1/contract/BTC1/order/open
 </code></pre>
+<h1 id="api-endpoints">API endpoints</h1>
 
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
+<p>In the examples below parameters are preceded by colon(:) For example, GET /api/v1/contract/:symbol/order/:uuid would be accessed as
+<code class="prettyprint">
+GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
+</code></p>
 
-<p>This endpoint retrieves all kittens.</p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">GET http://example.com/api/kittens</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
+<h2 id="unprotected-rest-api-endpoints">Unprotected REST API endpoints</h2>
 
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Default</th>
+<th>Method</th>
+<th>Rest Endpoint</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#info">/api/v1/all/info</a></td>
+<td>Get Exchange information</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#config">/api/v1/all/config</a></td>
+<td>General Exchange configuration</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#spec">/api/v1/all/spec</a></td>
+<td>Get contract specs for all exchange traded instruments</td>
 </tr>
 </tbody></table>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+<h2 id="protected-rest-api-endpoints">Protected REST API endpoints</h2>
 
-<h2 id="get-a-specific-kitten">Get a Specific Kitten</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre>
-
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can&rsquo;t use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">GET http://example.com/kittens/&lt;ID&gt;</code></p>
-
-<h3 id="url-parameters">URL Parameters</h3>
+<h3 id="open-orders">Open Orders</h3>
 
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Method</th>
+<th>Rest Endpoint</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#chart">/api/v1/contract/BTC1/chart/5</a></td>
+<td>Get chart info for instrument BTC1</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order">/api/v1/contract/BTC1/order/open</a></td>
+<td>Get all my open orders</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order">/api/v1/contract/BTC1/order/:uuid</a></td>
+<td>Get a specific order</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#createorder">/api/v1/contract/BTC1/order/open</a></td>
+<td>Create order</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#updateorder">/api/v1/contract/BTC1/order/open</a></td>
+<td>Update Order</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#deleteorder">/api/v1/contract/BTC1/order/open/:uuid</a></td>
+<td>Delete a specific order</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelallorders">/api/v1/contract/BTC1/order/open</a></td>
+<td>Cancel all orders</td>
 </tr>
 </tbody></table>
 
-          <h1 id="errors">Errors</h1>
-
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files&hellip;just save them to the `includes` folder and add them to the top of your `index.md`&rsquo;s frontmatter. Files are included in the order listed.</aside>
-
-<p>The Kittn API uses the following error codes:</p>
+<h3 id="closed-orders">Closed Orders</h3>
 
 <table><thead>
 <tr>
-<th>Error Code</th>
-<th>Meaning</th>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>400</td>
-<td>Bad Request &ndash; Your request sucks</td>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#closedorder">/api/v1/contract/BTC1/order/closed?after=uuid</a></td>
+<td>Get my closed orders after a particular uuid. if uuid not provided, latest set of orders are returned</td>
+</tr>
+</tbody></table>
+
+<h3 id="cancelled-orders">Cancelled Orders</h3>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelledorder">/api/v1/contract/BTC1/order/cancelled?after=uuid</a></td>
+<td>Get my cancelled orders after a particular uuid. if uuid not provided, latest set of orders are returned</td>
+</tr>
+</tbody></table>
+
+<h3 id="order-book">Order Book</h3>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#orderbook">/api/v1/contract/BTC1/orderbook</a></td>
+<td>Get order book</td>
+</tr>
+</tbody></table>
+
+<h3 id="recent-trades">Recent Trades</h3>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#trade">/api/v1/contract/BTC1/trade</a></td>
+<td>Get recent trades</td>
+</tr>
+</tbody></table>
+
+<h3 id="margin-position-p-amp-l-open-orders">Margin, Position, P&amp;L, open orders</h3>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#userdetails">/api/v1/account/userdetails</a></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h3 id="margin">Margin</h3>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/api/v1/account/margin</a></td>
+<td>Get balance in margin account</td>
 </tr>
 <tr>
-<td>401</td>
-<td>Unauthorized &ndash; Your API key is wrong</td>
+<td>POST</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/api/v1/account/margin</a></td>
+<td>Move coins from multisig to Margin account</td>
 </tr>
 <tr>
-<td>403</td>
-<td>Forbidden &ndash; The kitten requested is hidden for administrators only</td>
+<td>DELETE</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/api/v1/account/margin/:amount</a></td>
+<td>Move specified amount of coins from margin account to multisig account</td>
+</tr>
+</tbody></table>
+
+<h3 id="position">Position</h3>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#position">/api/v1/account/position</a></td>
+<td>Get all open positions</td>
+</tr>
+</tbody></table>
+
+<h3 id="p-amp-l">P&amp;L</h3>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#pnl">/api/v1/account/pnl</a></td>
+<td>Get My P&amp;L info</td>
+</tr>
+</tbody></table>
+
+<h3 id="multisig-account-functions">Multisig Account functions</h3>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#withdrawtx">/api/v1/account/withdrawtx</a></td>
+<td></td>
 </tr>
 <tr>
-<td>404</td>
-<td>Not Found &ndash; The specified kitten could not be found</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed &ndash; You tried to access a kitten with an invalid method</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone &ndash; The kitten requested has been removed from our servers</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&rsquo;m a teapot</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests &ndash; You&rsquo;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
+<td>GET</td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#recoverytx">/api/v1/account/recoverytx</a></td>
+<td>Get Server signed Multisig account Recovery TX</td>
 </tr>
 </tbody></table>
 
       </div>
       <div class="dark-box">
-          <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-          </div>
       </div>
     </div>
   </body>
