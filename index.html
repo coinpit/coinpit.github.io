@@ -91,7 +91,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;python&quot;,&quot;javascript&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -104,6 +104,11 @@
         <div>coinpit api</div>
       </div>
 
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">cURL</a>
+              <a href="#" data-language-name="python">python</a>
+              <a href="#" data-language-name="javascript">javascript</a>
+        </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
@@ -117,10 +122,63 @@
         </ul>
     </div>
     <div class="page-wrapper">
-      <div class="dark-box"></div>
       <div class="content">
-        <hr>
+        <h1 id="introduction">Introduction</h1>
 
+<p>Coinpit REST and Websocket API enable access to all features of the platform. Trading platforms, Trading bots, market makers can create a complete platform on top of the Coinpit API</p>
+
+<h2 id="language-sdk-libraries">Language SDK/Libraries</h2>
+
+<p>Currently we support the following SDK for programmatic access
+  <ul>
+  <li><a href="https://github.com/coinpit/coinpit-client">Node.js Client</a>
+  <li><a href="https://github.com/coinpit/pycoinpit">Python client</a>
+  </ul></p>
+
+<h2 id="unified-javascript-rest-library">Unified javascript Rest library</h2>
+
+<p>The library <a href="https://github.com/coinpit/REST">rest.js</a> enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a SCRIPT tag in HTML</p>
+<pre class="highlight plaintext"><code> &lt;!-- In browser --&gt;
+  &lt;script src="jquery.min.js"&gt;&lt;/script&gt;
+  &lt;script src="https://raw.githubusercontent.com/coinpit/REST/master/index.js"&gt;
+  &lt;script&gt;
+    restjs.get("https://live.coinpit.io/api/v1/all/info")
+          .then(function(result) {
+            console.log(result)
+          })
+  &lt;/script&gt;
+
+  // In node.js
+  var restjs = require('rest.js')
+  restjs.get("https://live.coinpit.io/api/v1/all/info")
+        .then(function(result) {
+          console.log(result)
+        })
+</code></pre>
+<h2 id="scheme">Scheme</h2>
+<pre class="highlight plaintext"><code>REST URL = BASE_URL + ENDPOINT
+</code></pre>
+<h3 id="base-url">Base URL</h3>
+
+<p>The base url for all REST API is https://live.coinpit.io/api/v1 . To request an endpoint, append it to the base url and make a request.</p>
+
+<p>For example to access the /all/info endpoint:</p>
+<pre class="highlight shell"><code>curl https://live.coinpit.io/api/v1/all/info
+</code></pre><pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="k">print</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"https://live.bluelot.us/api/v1/all/info"</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="s">'</span><span class="err">
+</span></code></pre><pre class="highlight javascript"><code><span class="nx">restjs</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"https://live.bluelot.us/api/v1/all/info"</span><span class="p">)</span>
+ <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">info</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">info</span><span class="p">)</span>
+  <span class="p">})</span>
+</code></pre>
+<h3 id="url-parameters">URL parameters</h3>
+
+<p>Url parameters are denoted by prepending a colon:</p>
+<pre class="highlight plaintext"><code>/contract/:symbol/order/:orderid
+</code></pre>
+<p>A specific order with id 123e4567-e89b-12d3-a456-426655440000 of contract BTC1 would be accessed as the url</p>
+<pre class="highlight plaintext"><code>https://live.coinpit.io/api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
+</code></pre>
 <h1 id="loginless-authentication">Loginless Authentication</h1>
 
 <p>Loginless Authentication is a zero-knowledge authentication system, which relies on ECDSA. The scheme involves arriving at a shared secret using your private key and the public key of the peer. Every request is HMAC authenticated using this shared secret.</p>
@@ -129,24 +187,22 @@
 
 <p>Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: Session Hijacking, Some kinds of replay attacks, Cookie sniffing and some XSS and XSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as Heartbleed bug</p>
 
-<h2 id="scheme">Scheme</h2>
-
 <h3 id="overview">Overview</h3>
 
 <p>Loginless requires you to set the Authorization header in HTTP for protected endpoints:</p>
 
-<h3 id="authorization-lt-user_id-gt-lt-hmac-gt">Authorization &lt;user_id&gt;:&lt;hmac&gt;</h3>
-<pre class="highlight plaintext"><code>Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
+<h3 id="authorization-and-nonce-headers">Authorization and Nonce headers</h3>
+<pre class="highlight plaintext"><code>Authorization HMAC \&lt;user_id\&gt;:\&lt;hmac_sha256\&gt;
+Nonce &lt;unix_time&gt;
+</code></pre><pre class="highlight plaintext"><code>Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
 Nonce 1478041315653
 </code></pre>
 <h3 id="setup-ecdh">Setup ECDH</h3>
 
 <p>Getting the corresponding public address of the server for your personal public address:</p>
 
-<p>GET /api/v1/auth/:my_public_key</p>
-<pre class="highlight plaintext"><code>Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk
-
-GET api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37
+<p>GET /auth/:my_public_key</p>
+<pre class="highlight plaintext"><code>GET /auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37
 
 {
 "serverPublicKey": "03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7"
@@ -162,36 +218,27 @@ GET api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df
 sharedSecret = ECDH(myPrivateKey, serverPublicKey)
 </code></pre>
 <h3 id="compute-hmac-authorization-for-all-subsequent-requests">Compute HMAC authorization for all subsequent requests</h3>
-<pre class="highlight javascript"><code> <span class="kd">function</span> <span class="nx">getAuthorization</span><span class="p">(</span><span class="nx">userId</span><span class="p">,</span> <span class="nx">secret</span><span class="p">,</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">uri</span><span class="p">,</span> <span class="nx">body</span><span class="p">,</span> <span class="nx">nonce</span><span class="p">)</span> <span class="p">{</span>
+<pre class="highlight javascript"><code>  <span class="kd">function</span> <span class="nx">getAuthorization</span><span class="p">(</span><span class="nx">userId</span><span class="p">,</span> <span class="nx">secret</span><span class="p">,</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">uri</span><span class="p">,</span> <span class="nx">body</span><span class="p">,</span> <span class="nx">nonce</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">secret</span><span class="p">)</span> <span class="k">return</span> <span class="s1">'HMAC '</span> <span class="o">+</span> <span class="nx">userId</span>
     <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span> <span class="na">method</span><span class="p">:</span> <span class="nx">method</span><span class="p">,</span> <span class="na">uri</span><span class="p">:</span> <span class="nx">uri</span><span class="p">,</span> <span class="na">body</span><span class="p">:</span> <span class="nx">body</span><span class="p">,</span> <span class="na">nonce</span><span class="p">:</span> <span class="nx">nonce</span> <span class="p">})</span>
     <span class="kd">var</span> <span class="nx">hmac</span>    <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">secret</span><span class="p">,</span> <span class="s1">'hex'</span><span class="p">))</span>
     <span class="nx">hmac</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span>
     <span class="k">return</span> <span class="s1">'HMAC '</span> <span class="o">+</span> <span class="nx">userId</span> <span class="o">+</span> <span class="s2">":"</span> <span class="o">+</span> <span class="nx">hmac</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span>
   <span class="p">}</span>
-</code></pre><pre class="highlight python"><code> <span class="n">function</span> <span class="n">getAuthorization</span><span class="p">(</span><span class="n">userId</span><span class="p">,</span> <span class="n">secret</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">nonce</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="err">!</span><span class="n">secret</span><span class="p">)</span> <span class="k">return</span> <span class="s">'HMAC '</span> <span class="o">+</span> <span class="n">userId</span>
-    <span class="n">var</span> <span class="n">message</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">stringify</span><span class="p">({</span> <span class="n">method</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="n">uri</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span> <span class="n">nonce</span><span class="p">:</span> <span class="n">nonce</span> <span class="p">})</span>
-    <span class="n">var</span> <span class="n">hmac</span>    <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">createHmac</span><span class="p">(</span><span class="s">'sha256'</span><span class="p">,</span> <span class="n">new</span> <span class="n">Buffer</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="s">'hex'</span><span class="p">))</span>
-    <span class="n">hmac</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s">'HMAC '</span> <span class="o">+</span> <span class="n">userId</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">hmac</span><span class="o">.</span><span class="n">digest</span><span class="p">(</span><span class="s">'hex'</span><span class="p">)</span>
-  <span class="p">}</span>
-</code></pre><pre class="highlight plaintext"><code> function getAuthorization(userId, secret, method, uri, body, nonce) {
-    if (!secret) return 'HMAC ' + userId
-    var message = JSON.stringify({ method: method, uri: uri, body: body, nonce: nonce })
-    var hmac    = crypto.createHmac('sha256', new Buffer(secret, 'hex'))
-    hmac.update(message)
-    return 'HMAC ' + userId + ":" + hmac.digest('hex')
-  }
+</code></pre><pre class="highlight python"><code><span class="kn">import</span> <span class="nn">pycoinpit</span>
+<span class="n">coinpit_me</span> <span class="o">=</span> <span class="n">pycoinpit</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
+<span class="n">account</span> <span class="o">=</span> <span class="n">coinpit_me</span><span class="o">.</span><span class="n">get_account</span><span class="p">()</span>
+</code></pre><pre class="highlight shell"><code><span class="nv">PRIVATE_KEY_WIF</span><span class="o">=</span><span class="s2">""</span> <span class="c"># private_key in WIF format</span>
+python -c <span class="s2">"import pycoinpit; coinpit_me = pycoinpit.Client(</span><span class="nv">$PRIVATE_KEY_WIF</span><span class="s2">); print coinpit_me.get_account()"</span>
 </code></pre>
 <h3 id="send-request-using-authorization-and-nonce-headers">Send request using Authorization and nonce headers</h3>
 <pre class="highlight plaintext"><code>curl -H 'Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3' -H 'Nonce 1478041315653' https://live.coinpit.me/api/v1/contract/BTC1/order/open
 </code></pre>
 <h1 id="api-endpoints">API endpoints</h1>
 
-<p>In the examples below parameters are preceded by colon(:) For example, GET /api/v1/contract/:symbol/order/:uuid would be accessed as
+<p>In the examples below parameters are preceded by colon(:) For example, GET /contract/:symbol/order/:uuid would be accessed as
 <code class="prettyprint">
-GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
+GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </code></p>
 
 <h2 id="unprotected-rest-api-endpoints">Unprotected REST API endpoints</h2>
@@ -205,22 +252,22 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#info">/api/v1/all/info</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#info">/all/info</a></td>
 <td>Get Exchange information</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#spec">/api/v1/all/spec</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#spec">/all/spec</a></td>
 <td>Get contract specs for all exchange traded instruments</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><a href="#CONFIG">/api/v1/all/config</a></td>
+<td><a href="#CONFIG">/all/config</a></td>
 <td>General Exchange configuration</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><a href="#BANDS">/api/v1/all/bands</a></td>
+<td><a href="#BANDS">/all/bands</a></td>
 <td>GET external index prices for different instruments</td>
 </tr>
 </tbody></table>
@@ -238,7 +285,7 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="#BANDS">/api/v1/all/executions</a></td>
+<td><a href="#BANDS">/all/executions</a></td>
 <td>GET recents executions</td>
 </tr>
 </tbody></table>
@@ -254,37 +301,37 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#chart">/api/v1/contract/BTC1/chart/5</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#chart">/contract/BTC1/chart/5</a></td>
 <td>Get chart info for instrument BTC1</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order">/api/v1/contract/BTC1/order/open</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order">/contract/BTC1/order/open</a></td>
 <td>Get all my open orders</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order">/api/v1/contract/BTC1/order/:uuid</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order">/contract/BTC1/order/:uuid</a></td>
 <td>Get a specific order</td>
 </tr>
 <tr>
 <td>POST</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#createorder">/api/v1/contract/BTC1/order/open</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#createorder">/contract/BTC1/order/open</a></td>
 <td>Create order</td>
 </tr>
 <tr>
 <td>PUT</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#updateorder">/api/v1/contract/BTC1/order/open</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#updateorder">/contract/BTC1/order/open</a></td>
 <td>Update Order</td>
 </tr>
 <tr>
 <td>DELETE</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#deleteorder">/api/v1/contract/BTC1/order/open/:uuid</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#deleteorder">/contract/BTC1/order/open/:uuid</a></td>
 <td>Delete a specific order</td>
 </tr>
 <tr>
 <td>DELETE</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelallorders">/api/v1/contract/BTC1/order/open</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelallorders">/contract/BTC1/order/open</a></td>
 <td>Cancel all orders</td>
 </tr>
 </tbody></table>
@@ -300,7 +347,7 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#closedorder">/api/v1/contract/BTC1/order/closed?after=uuid</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#closedorder">/contract/BTC1/order/closed?after=uuid</a></td>
 <td>Get my closed orders after a particular uuid. if uuid not provided, latest set of orders are returned</td>
 </tr>
 </tbody></table>
@@ -316,7 +363,7 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelledorder">/api/v1/contract/BTC1/order/cancelled?after=uuid</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelledorder">/contract/BTC1/order/cancelled?after=uuid</a></td>
 <td>Get my cancelled orders after a particular uuid. if uuid not provided, latest set of orders are returned</td>
 </tr>
 </tbody></table>
@@ -332,7 +379,7 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#orderbook">/api/v1/contract/BTC1/orderbook</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#orderbook">/contract/BTC1/orderbook</a></td>
 <td>Get order book</td>
 </tr>
 </tbody></table>
@@ -348,7 +395,7 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#trade">/api/v1/contract/BTC1/trade</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#trade">/contract/BTC1/trade</a></td>
 <td>Get recent trades</td>
 </tr>
 </tbody></table>
@@ -364,7 +411,7 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#userdetails">/api/v1/account/userdetails</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#userdetails">/account</a></td>
 <td></td>
 </tr>
 </tbody></table>
@@ -380,17 +427,17 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/api/v1/account/margin</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/account/margin</a></td>
 <td>Get balance in margin account</td>
 </tr>
 <tr>
 <td>POST</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/api/v1/account/margin</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/account/margin</a></td>
 <td>Move coins from multisig to Margin account</td>
 </tr>
 <tr>
 <td>DELETE</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/api/v1/account/margin/:amount</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/account/margin/:amount</a></td>
 <td>Move specified amount of coins from margin account to multisig account</td>
 </tr>
 </tbody></table>
@@ -406,7 +453,7 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#position">/api/v1/account/position</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#position">/account/position</a></td>
 <td>Get all open positions</td>
 </tr>
 </tbody></table>
@@ -422,7 +469,7 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#pnl">/api/v1/account/pnl</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#pnl">/account/pnl</a></td>
 <td>Get My P&amp;L info</td>
 </tr>
 </tbody></table>
@@ -438,12 +485,12 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#withdrawtx">/api/v1/account/withdrawtx</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#withdrawtx">/account/withdrawtx</a></td>
 <td></td>
 </tr>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#recoverytx">/api/v1/account/recoverytx</a></td>
+<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#recoverytx">/account/recoverytx</a></td>
 <td>Get Server signed Multisig account Recovery TX</td>
 </tr>
 </tbody></table>
@@ -1742,6 +1789,11 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </code></pre>
       </div>
       <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="shell">cURL</a>
+                <a href="#" data-language-name="python">python</a>
+                <a href="#" data-language-name="javascript">javascript</a>
+          </div>
       </div>
     </div>
   </body>
