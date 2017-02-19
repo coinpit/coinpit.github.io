@@ -105,7 +105,7 @@
       </div>
 
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">cURL</a>
+              <a href="#" data-language-name="shell">shell</a>
               <a href="#" data-language-name="python">python</a>
               <a href="#" data-language-name="javascript">javascript</a>
         </div>
@@ -137,16 +137,16 @@
 
 <h2 id="unified-javascript-rest-library">Unified javascript Rest library</h2>
 
-<p>The library <a href="https://github.com/coinpit/REST">rest.js</a> enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a SCRIPT tag in HTML</p>
-<pre class="highlight plaintext"><code> &lt;!-- In browser --&gt;
-  &lt;script src="jquery.min.js"&gt;&lt;/script&gt;
-  &lt;script src="https://raw.githubusercontent.com/coinpit/REST/master/index.js"&gt;
-  &lt;script&gt;
-    restjs.get("https://live.coinpit.io/api/v1/all/info")
-          .then(function(result) {
-            console.log(result)
-          })
-  &lt;/script&gt;
+<p>The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a SCRIPT tag in HTML</p>
+<pre class="highlight html"><code> <span class="c">&lt;!-- In browser --&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"jquery.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://raw.githubusercontent.com/coinpit/REST/master/index.js"</span><span class="nt">&gt;</span>
+  <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+    <span class="nx">restjs</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"https://live.coinpit.io/api/v1/all/info"</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span>
+          <span class="p">})</span>
+  <span class="nt">&lt;/script&gt;</span>
 
   // In node.js
   var restjs = require('rest.js')
@@ -181,37 +181,36 @@
 </code></pre>
 <h1 id="loginless-authentication">Loginless Authentication</h1>
 
-<p>Loginless Authentication is a zero-knowledge authentication system, which relies on ECDSA. The scheme involves arriving at a shared secret using your private key and the public key of the peer. Every request is HMAC authenticated using this shared secret.</p>
+<p>Loginless is a zero-knowledge authentication system, which relies on ECDSA. The scheme involves arriving at a shared secret using your private key and the public key of the peer. Every request is HMAC authenticated using this shared secret.</p>
 
 <h2 id="benefits">Benefits</h2>
 
 <p>Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: Session Hijacking, Some kinds of replay attacks, Cookie sniffing and some XSS and XSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as Heartbleed bug</p>
 
-<h3 id="overview">Overview</h3>
+<h2 id="overview">Overview</h2>
 
 <p>Loginless requires you to set the Authorization header in HTTP for protected endpoints:</p>
 
-<h3 id="authorization-and-nonce-headers">Authorization and Nonce headers</h3>
-<pre class="highlight plaintext"><code>Authorization HMAC \&lt;user_id\&gt;:\&lt;hmac_sha256\&gt;
+<h2 id="authorization-and-nonce-headers">Authorization and Nonce headers</h2>
+<pre class="highlight plaintext"><code>Authorization HMAC &lt;user_id&gt;:&lt;hmac_sha256&gt;
 Nonce &lt;unix_time&gt;
 </code></pre><pre class="highlight plaintext"><code>Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
 Nonce 1478041315653
 </code></pre>
-<h3 id="setup-ecdh">Setup ECDH</h3>
+<h2 id="setup-ecdh">Setup ECDH</h2>
 
 <p>Getting the corresponding public address of the server for your personal public address:</p>
 
-<p>GET /auth/:my_public_key</p>
-<pre class="highlight plaintext"><code>GET /auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37
-
-{
-"serverPublicKey": "03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7"
-"userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk",
-// other fields
-}
-</code></pre>
+<p>GET /api/v1/auth/:my_public_key</p>
+<pre class="highlight plaintext"><code>GET /api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37
+Accept: application/json
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+</span><span class="nt">"serverPublicKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7"</span><span class="p">,</span><span class="w">
+</span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>You also get the server clock in the Server-Time header. If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests.</p>
-<pre class="highlight plaintext"><code>Server-Time 1478041315780
+<pre class="highlight plaintext"><code>Server-Time: 1478041315780
 </code></pre>
 <h3 id="compute-shared-secret">Compute Shared Secret</h3>
 <pre class="highlight plaintext"><code>// Programming language specific
@@ -243,6 +242,8 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 
 <h2 id="unprotected-rest-api-endpoints">Unprotected REST API endpoints</h2>
 
+<h3 id="general-exchange-data">General Exchange data</h3>
+
 <table><thead>
 <tr>
 <th>Method</th>
@@ -252,29 +253,17 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#info">/all/info</a></td>
-<td>Get Exchange information</td>
+<td><a href="#all-info">/all/info</a></td>
+<td>Last price, 24Hr volume, etc</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#spec">/all/spec</a></td>
-<td>Get contract specs for all exchange traded instruments</td>
-</tr>
-<tr>
-<td>GET</td>
-<td><a href="#CONFIG">/all/config</a></td>
-<td>General Exchange configuration</td>
-</tr>
-<tr>
-<td>GET</td>
-<td><a href="#BANDS">/all/bands</a></td>
+<td><a href="#all-band">/all/band</a></td>
 <td>GET external index prices for different instruments</td>
 </tr>
 </tbody></table>
 
-<h2 id="protected-rest-api-endpoints">Protected REST API endpoints</h2>
-
-<h3 id="executions">Executions</h3>
+<h3 id="exchange-configuration">Exchange configuration</h3>
 
 <table><thead>
 <tr>
@@ -285,10 +274,17 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="#BANDS">/all/executions</a></td>
-<td>GET recents executions</td>
+<td><a href="#all-spec">/all/spec</a></td>
+<td>Get contract specs for all exchange traded instruments</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#all-config">/all/config</a></td>
+<td>General Exchange configuration</td>
 </tr>
 </tbody></table>
+
+<h2 id="protected-rest-api-endpoints">Protected REST API endpoints</h2>
 
 <h3 id="open-orders">Open Orders</h3>
 
@@ -301,38 +297,43 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#chart">/contract/BTC1/chart/5</a></td>
-<td>Get chart info for instrument BTC1</td>
+<td><a href="#contract-chart">/contract/:symbol/chart/5</a></td>
+<td>Get chart info for instrument :symbol</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order">/contract/BTC1/order/open</a></td>
+<td><a href="#contract-order-all">/contract/:symbol/order/open</a></td>
 <td>Get all my open orders</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order">/contract/BTC1/order/:uuid</a></td>
+<td><a href="#contract-order-id">/contract/:symbol/order/:uuid</a></td>
 <td>Get a specific order</td>
 </tr>
 <tr>
 <td>POST</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#createorder">/contract/BTC1/order/open</a></td>
+<td><a href="#contract-create-order">/contract/:symbol/order/open</a></td>
 <td>Create order</td>
 </tr>
 <tr>
 <td>PUT</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#updateorder">/contract/BTC1/order/open</a></td>
+<td><a href="#contract-update-order">/contract/:symbol/order/open</a></td>
 <td>Update Order</td>
 </tr>
 <tr>
 <td>DELETE</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#deleteorder">/contract/BTC1/order/open/:uuid</a></td>
+<td><a href="#contract-cancel-order">/contract/:symbol/order/open/:uuid</a></td>
 <td>Delete a specific order</td>
 </tr>
 <tr>
 <td>DELETE</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelallorders">/contract/BTC1/order/open</a></td>
+<td><a href="#contract-cancel-all">/contract/:symbol/order/open</a></td>
 <td>Cancel all orders</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><a href="#contract-patch-order">/contract/:symbol/order/open</a></td>
+<td>Combined create/update/cancel</td>
 </tr>
 </tbody></table>
 
@@ -347,7 +348,7 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#closedorder">/contract/BTC1/order/closed?after=uuid</a></td>
+<td><a href="#contract-order-closed">/contract/:symbol/order/closed?after=uuid</a></td>
 <td>Get my closed orders after a particular uuid. if uuid not provided, latest set of orders are returned</td>
 </tr>
 </tbody></table>
@@ -363,7 +364,7 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelledorder">/contract/BTC1/order/cancelled?after=uuid</a></td>
+<td><a href="#contract-order-cancelled">/contract/:symbol/order/cancelled?after=uuid</a></td>
 <td>Get my cancelled orders after a particular uuid. if uuid not provided, latest set of orders are returned</td>
 </tr>
 </tbody></table>
@@ -379,7 +380,7 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#orderbook">/contract/BTC1/orderbook</a></td>
+<td><a href="#contract-orderbook">/contract/:symbol/orderbook</a></td>
 <td>Get order book</td>
 </tr>
 </tbody></table>
@@ -395,8 +396,24 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#trade">/contract/BTC1/trade</a></td>
+<td><a href="#contract-recent-trade">/contract/:symbol/trade</a></td>
 <td>Get recent trades</td>
+</tr>
+</tbody></table>
+
+<h3 id="user-executions">User Executions</h3>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#account-execution">/account/execution</a></td>
+<td>GET User&rsquo;s recent executions</td>
 </tr>
 </tbody></table>
 
@@ -411,7 +428,7 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#userdetails">/account</a></td>
+<td><a href="#account">/account</a></td>
 <td></td>
 </tr>
 </tbody></table>
@@ -427,17 +444,17 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/account/margin</a></td>
+<td><a href="#account-margin">/account/margin</a></td>
 <td>Get balance in margin account</td>
 </tr>
 <tr>
 <td>POST</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/account/margin</a></td>
+<td><a href="#account-margin-move">/account/margin</a></td>
 <td>Move coins from multisig to Margin account</td>
 </tr>
 <tr>
 <td>DELETE</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin">/account/margin/:amount</a></td>
+<td><a href="#account-margin-clear">/account/margin/:amount</a></td>
 <td>Move specified amount of coins from margin account to multisig account</td>
 </tr>
 </tbody></table>
@@ -453,7 +470,7 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#position">/account/position</a></td>
+<td><a href="#account-position">/account/position</a></td>
 <td>Get all open positions</td>
 </tr>
 </tbody></table>
@@ -469,7 +486,7 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#pnl">/account/pnl</a></td>
+<td><a href="#account-pnl">/account/pnl</a></td>
 <td>Get My P&amp;L info</td>
 </tr>
 </tbody></table>
@@ -485,1312 +502,1050 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#withdrawtx">/account/withdrawtx</a></td>
+<td><a href="#account-withdrawtx">/account/withdrawtx</a></td>
 <td></td>
 </tr>
 <tr>
 <td>GET</td>
-<td><a href="https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#recoverytx">/account/recoverytx</a></td>
+<td><a href="#account-recoverytx">/account/recoverytx</a></td>
 <td>Get Server signed Multisig account Recovery TX</td>
 </tr>
 </tbody></table>
 
           <h1 id="examples">Examples</h1>
 
-<h1 id="unprotected-api-v1-all">Unprotected /api/v1/all</h1>
+<p>Examples are structured as follows:</p>
 
-<h2 id="get-config">GET /config</h2>
+<table><thead>
+<tr>
+<th>Section</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Title</td>
+<td>What the /api endpoint stands for</td>
+</tr>
+<tr>
+<td>URL template</td>
+<td>Any colon prepended tokens are url parameters</td>
+</tr>
+<tr>
+<td>HTTP Request</td>
+<td>Abbreviated HTTP request</td>
+</tr>
+<tr>
+<td>Server Response</td>
+<td>Including expected HTTP error code</td>
+</tr>
+</tbody></table>
 
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-   "method":"GET",
-   "uri":"/api/config",
-   "nonce":1480947267895
-}
+<p><a name="all-info"></a></p>
+
+<h2 id="exchange-basic-info">Exchange Basic Info</h2>
+
+<h3 id="get-api-v1-all-info">GET /api/v1/all/info</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/all/info
+Accept: application/json
 </code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>{
-   "instrument":{
-      "BTC1":{
-         "symbol":"BTC1",
-         "commission":10000,
-         "reward":-2500,
-         "margin":2100000,
-         "stopcushion":1,
-         "stopprice":1,
-         "targetprice":2,
-         "crossMarginInitialStop":10,
-         "ticksize":1,
-         "ticksperpoint":10,
-         "tickvalue":10000,
-         "bandUpperLimit":2,
-         "bandLowerLimit":2,
-         "introducerReward":500,
-         "introducedReward":1000,
-         "rewardsCalculationInterval":1440,
-         "minMarketStop":1.6,
-         "minLimitStop":1.6,
-         "uplDecimalPlaces":4
-      }
-   },
-   "default":{
-      "instrument":"BTC1"
-   },
-   "network":"testnet",
-   "maxInputs":50,
-   "sendFundsTXfee":50000,
-   "sendFundsMaxTXfee":1000000,
-   "recoveryFeePerKB":25000,
-   "minimumFee":50000,
-   "maximumFee":150000,
-   "feePerKB":50000,
-   "feeCheckInterval":3600000,
-   "feeChangeTolerance":0.05,
-   "marginFeeThreshold":0.9,
-   "sliceSize":10000000,
-   "bitcoinDust":5430,
-   "sliceThreshold":10,
-   "reservedTicks":2,
-   "maxOrdersCreateUpdate":100,
-   "maxPositionsMerge":40,
-   "blockchainapi":{
-      "provider":"insight",
-      "uri":"https://insight.coinpit.me/insight-api",
-      "socketuri":"https://insight.coinpit.me"
-   },
-   "links":{
-      "blockcypher":"https://live.blockcypher.com/btc-testnet",
-      "blockexplorer":"https://testnet.blockexplorer.com",
-      "blocktrail":"https://www.blocktrail.com/tBTC"
-   },
-   "geofence":{
-      "block":[
-         "UM"
-      ],
-      "valid":[
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"BTC1"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"vol24H"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"qty"</span><span class="p">:</span><span class="mi">152</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"btc"</span><span class="p">:</span><span class="mf">115.8483</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"openInterest"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"qty"</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"btc"</span><span class="p">:</span><span class="mf">5.261</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"lastPrice"</span><span class="p">:</span><span class="mf">751.7</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"indexPrice"</span><span class="p">:</span><span class="mf">748.6</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><a name="all-band"></a></p>
 
-      ]
-   },
-   "noSignup":false
-}
+<h2 id="anti-manipulation-bands">Anti-Manipulation bands</h2>
+
+<h3 id="get-api-v1-all-band">GET /api/v1/all/band</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/all/band
+Accept: application/json
 </code></pre>
-<h2 id="get-info">GET /info</h2>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"BTCUSD7G24"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1057.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mf">1047.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mf">1067.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD7G24"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"BTC1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1057.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mf">1055.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mf">1059.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC1"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"BTCUSD7H03"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1057.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mf">1047.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mf">1067.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD7H03"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"MBTCUSD7G190245"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1057.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mf">1047.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mf">1067.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MBTCUSD7G190245"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"MBTCUSD7G190250"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1057.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mf">1047.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mf">1067.1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MBTCUSD7G190250"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
 
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-   "method":"GET",
-   "uri":"/api/info",
-   "nonce":1480947267135
-}
+</span></code></pre>
+<p><a name="all-spec"></a></p>
+
+<h2 id="contract-specs">Contract Specs</h2>
+
+<h3 id="get-api-v1-all-spec">GET /api/v1/all/spec</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"method"</span><span class="p">:</span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"uri"</span><span class="p">:</span><span class="s2">"/api/spec"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"nonce"</span><span class="p">:</span><span class="mi">1480947264503</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"instruments"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"all"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"Trading Hours"</span><span class="p">:</span><span class="s2">"24x7x365"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Listed Contracts"</span><span class="p">:</span><span class="s2">"Continuous"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Settlement Method"</span><span class="p">:</span><span class="s2">"Financial"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Termination of trading"</span><span class="p">:</span><span class="s2">"None, Automatic rollover"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Settlement Procedure"</span><span class="p">:</span><span class="s2">"P&amp;L Equivalent BTC credited/debited to account"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Position Limits"</span><span class="p">:</span><span class="s2">"None at present. May be instituted as needed"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Price Limit or circuit"</span><span class="p">:</span><span class="s2">"None at present. May be instituted as needed"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"BTC1"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"Contract Unit"</span><span class="p">:</span><span class="s2">"BTC/USD"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Minimum price fluctuation"</span><span class="p">:</span><span class="s2">"0.1 USD = 0.0001 BTC"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Quote currency"</span><span class="p">:</span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Type"</span><span class="p">:</span><span class="s2">"Quanto"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Margin &amp; PNL currency"</span><span class="p">:</span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"BTC value of 1 contract"</span><span class="p">:</span><span class="s2">"Price &amp;times; 0.001 BTC"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"USD value of 1 contract"</span><span class="p">:</span><span class="s2">"Price² &amp;times; 0.001 BTC"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"BTC P&amp;L of 1 contract"</span><span class="p">:</span><span class="s2">"(SellPrice - BuyPrice) &amp;times; 0.001 BTC"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Approx Leverage"</span><span class="p">:</span><span class="s2">"Price &amp;times; 0.001 BTC / Margin&lt;br&gt; Example: 422 &amp;times; 0.001 / (0.0001 &amp;times; 20) = 211 &lt;br&gt;approx. Price &amp;times; 10/(stop_ticks+10)"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"Spot Anchor Price"</span><span class="p">:</span><span class="s2">"Spot anchor price is median of OKCoin, BitFinex and Bitstamp BTC/USD real-time spot price"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"parameter"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"BTC1"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"symbol"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"margin"</span><span class="p">:</span><span class="mi">2100000</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"stopcushion"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"stopprice"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"targetprice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"crossMarginInitialStop"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"ticksize"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"ticksperpoint"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"tickvalue"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"bandUpperLimit"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"bandLowerLimit"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"introducerReward"</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"introducedReward"</span><span class="p">:</span><span class="mi">1000</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"rewardsCalculationInterval"</span><span class="p">:</span><span class="mi">1440</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"minMarketStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"minLimitStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"uplDecimalPlaces"</span><span class="p">:</span><span class="mi">4</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><a name="all-config"></a></p>
+
+<h2 id="exchange-contract-config">Exchange/Contract Config</h2>
+
+<h3 id="get-api-v1-all-config">GET /api/v1/all/config</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/all/config
+Accept: application/json
 </code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>{
-   "BTC1":{
-      "vol24H":{
-         "qty":152,
-         "btc":115.8483,
-         "instrument":"BTC1"
-      },
-      "openInterest":{
-         "qty":7,
-         "btc":5.261,
-         "instrument":"BTC1"
-      },
-      "lastPrice":751.7,
-      "indexPrice":748.6
-   }
-}
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"instrument"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"BTC1"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"symbol"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"margin"</span><span class="p">:</span><span class="mi">2100000</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"stopcushion"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"stopprice"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"targetprice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"crossMarginInitialStop"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"ticksize"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"ticksperpoint"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"tickvalue"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"bandUpperLimit"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"bandLowerLimit"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"introducerReward"</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"introducedReward"</span><span class="p">:</span><span class="mi">1000</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"rewardsCalculationInterval"</span><span class="p">:</span><span class="mi">1440</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"minMarketStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"minLimitStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"uplDecimalPlaces"</span><span class="p">:</span><span class="mi">4</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"default"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"network"</span><span class="p">:</span><span class="s2">"testnet"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"maxInputs"</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"sendFundsTXfee"</span><span class="p">:</span><span class="mi">50000</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"sendFundsMaxTXfee"</span><span class="p">:</span><span class="mi">1000000</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"recoveryFeePerKB"</span><span class="p">:</span><span class="mi">25000</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"minimumFee"</span><span class="p">:</span><span class="mi">50000</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"maximumFee"</span><span class="p">:</span><span class="mi">150000</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"feePerKB"</span><span class="p">:</span><span class="mi">50000</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"feeCheckInterval"</span><span class="p">:</span><span class="mi">3600000</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"feeChangeTolerance"</span><span class="p">:</span><span class="mf">0.05</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"marginFeeThreshold"</span><span class="p">:</span><span class="mf">0.9</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"sliceSize"</span><span class="p">:</span><span class="mi">10000000</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"bitcoinDust"</span><span class="p">:</span><span class="mi">5430</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"sliceThreshold"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"maxOrdersCreateUpdate"</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"maxPositionsMerge"</span><span class="p">:</span><span class="mi">40</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"blockchainapi"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"provider"</span><span class="p">:</span><span class="s2">"insight"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"uri"</span><span class="p">:</span><span class="s2">"https://insight.coinpit.me/insight-api"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"socketuri"</span><span class="p">:</span><span class="s2">"https://insight.coinpit.me"</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"links"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"blockcypher"</span><span class="p">:</span><span class="s2">"https://live.blockcypher.com/btc-testnet"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"blockexplorer"</span><span class="p">:</span><span class="s2">"https://testnet.blockexplorer.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"blocktrail"</span><span class="p">:</span><span class="s2">"https://www.blocktrail.com/tBTC"</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"geofence"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"block"</span><span class="p">:[</span><span class="w">
+         </span><span class="s2">"UM"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"valid"</span><span class="p">:[</span><span class="w">
+
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"noSignup"</span><span class="p">:</span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><a name="contract-chart"></a></p>
+
+<h2 id="chart-for-contract">Chart for contract</h2>
+
+<h3 id="api-v1-contract-symbol-chart-timeframe">/api/v1/contract/:symbol/chart/:timeframe</h3>
+<pre class="highlight plaintext"><code>  GET /api/v1/contract/BTC1/chart/5
+  Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
+  Nonce: 1481655922696
 </code></pre>
-<h2 id="get-api-v1-contract-btc1-chart">GET /api/v1/contract/BTC1/chart</h2>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"v"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"s"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"t"</span><span class="p">:</span><span class="w"> </span><span class="mi">1481655900</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"o"</span><span class="p">:</span><span class="w"> </span><span class="mf">779.4</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"h"</span><span class="p">:</span><span class="w"> </span><span class="mf">779.5</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"l"</span><span class="p">:</span><span class="w"> </span><span class="mf">779.4</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"c"</span><span class="p">:</span><span class="w"> </span><span class="mf">779.5</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC1"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"v"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"s"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"t"</span><span class="p">:</span><span class="w"> </span><span class="mi">1481655600</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"o"</span><span class="p">:</span><span class="w"> </span><span class="mf">779.6</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"h"</span><span class="p">:</span><span class="w"> </span><span class="mf">779.6</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"l"</span><span class="p">:</span><span class="w"> </span><span class="mf">779.5</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"c"</span><span class="p">:</span><span class="w"> </span><span class="mf">779.6</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC1"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p><a name="contract-order-all"></a></p>
 
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-  "method": "GET",
-  "uri": "/api/chart/5?instrument=BTC1",
-  "nonce": 1481655922696
-}
+<h2 id="get-all-orders">Get all orders</h2>
+
+<h3 id="get-api-v1-contract-symbol-order">GET /api/v1/contract/:symbol/order</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/contract/BTC1/order
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
+Nonce: 1480957451447
 </code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>[
-  {
-    "v": 0,
-    "s": 0,
-    "t": 1481655900,
-    "o": 779.4,
-    "h": 779.5,
-    "l": 779.4,
-    "c": 779.5,
-    "instrument": "BTC1"
-  },
-  {
-    "v": 0,
-    "s": 0,
-    "t": 1481655600,
-    "o": 779.6,
-    "h": 779.6,
-    "l": 779.5,
-    "c": 779.6,
-    "instrument": "BTC1"
-  }
-]
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"7cf5d9a0-bb0b-11e6-ad8c-feca0c133dfb"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">752.1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1480956869690928</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1480956869690928</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"entryOrder"</span><span class="p">:{</span><span class="w">
+
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mf">2.8</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"clientid"</span><span class="p">:</span><span class="s2">"7bdfd5c0-bb0b-11e6-91e6-571f03ad5182"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"cushion"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="kc">false</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"6cc52580-bb0c-11e6-b831-df21626bb966"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">752.2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1480957272024245</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1480957272024245</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"entryOrder"</span><span class="p">:{</span><span class="w">
+
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mf">2.8</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"clientid"</span><span class="p">:</span><span class="s2">"6badc210-bb0c-11e6-b1b0-31a3e9373a6c"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"cushion"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="kc">false</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p><a name="contract-order-id"></a></p>
+
+<h2 id="get-order-by-id">Get order by id</h2>
+
+<h3 id="get-api-v1-contract-symbol-order-uuid">GET /api/v1/contract/:symbol/order/:uuid</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/contract/BTC1/order/open/503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc
+Accept: application/json
 </code></pre>
-<h2 id="patch-order">PATCH /order</h2>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">814.8</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1482348434328077</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1482348364074468</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"entryOrder"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"50192f40-c7b3-11e6-ba51-b8bd8cf25f84"</span><span class="p">:</span><span class="mi">1</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"STP"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mf">7.2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"oco"</span><span class="p">:</span><span class="s2">"503eb8a1-c7b3-11e6-bbb6-4029c20f8e39"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"maxStop"</span><span class="p">:</span><span class="mi">814</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"entryPrice"</span><span class="p">:</span><span class="mf">822.3</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"entryAmount"</span><span class="p">:</span><span class="mf">822.3</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"cushion"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="kc">false</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p><a name="contract-create-order"></a></p>
 
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>[
-   "PATCH /order",
-   {
-      "headers":{
-         "requestid":"92569941-69d6-4c86-bafc-694558157a48",
-         "authorization":"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69"
-      },
-      "method":"PATCH",
-      "uri":"/order",
-      "params":{
-         "instrument":"BTC1"
-      },
-      "body":[
-         {
-            "op":"remove",
-            "path":"/19b3a371-c7b5-11e6-a305-6ee5416bea55"
-         },
-         {
-            "op":"remove",
-            "path":"/0d71f940-c7b5-11e6-9906-9cd1c95275e5"
-         }
-      ],
-      "nonce":1482349148300,
-      "current":1482349147200
-   }
-]
+<h2 id="create-new-order">Create New Order</h2>
+
+<h3 id="post-api-v1-contract-symbol-order">POST /api/v1/contract/:symbol/order</h3>
+<pre class="highlight plaintext"><code>POST /api/v1/contract/BTC1/order
+Accept: application/json
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
+</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price"</span><span class="p">:</span><span class="mi">790</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"clientid"</span><span class="p">:</span><span class="s2">"de12c110-c616-11e6-8cd0-fbf50c0d0231"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mf">30.6</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"postOnly"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"order_add"</span><span class="p">,</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"result"</span><span class="p">:[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"de730980-c616-11e6-948a-14e8eedc81d8"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"price"</span><span class="p">:</span><span class="mi">790</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1482171220504726</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1482171220504726</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"entryOrder"</span><span class="p">:{</span><span class="w">
+
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mf">30.6</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"clientid"</span><span class="p">:</span><span class="s2">"de12c110-c616-11e6-8cd0-fbf50c0d0231"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"cushion"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="kc">false</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"methodName"</span><span class="p">:</span><span class="s2">"createOrders"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"requestid"</span><span class="p">:</span><span class="s2">"7ad8b572-0b4b-4ea2-a2fb-261130ec5b13"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"topic"</span><span class="p">:</span><span class="s2">"order_add"</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p><a name="contract-update-order"></a></p>
+
+<h2 id="update-orders">Update Orders</h2>
+
+<h3 id="put-api-v1-contract-symbol-order-open">PUT /api/v1/contract/:symbol/order/open</h3>
+<pre class="highlight plaintext"><code>PUT /api/v1/contract/BTC1/order/open
+Accept: application/json
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:26751dd64f75523257a3aeda5f2d59e68f4322500bcbc4beaa8ad27754ddd62b
+</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"PUT /order"</span><span class="p">,</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"headers"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"requestid"</span><span class="p">:</span><span class="s2">"f91e424a-978f-4cd2-9f14-02e21d914908"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"authorization"</span><span class="p">:</span><span class="s2">"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:26751dd64f75523257a3aeda5f2d59e68f4322500bcbc4beaa8ad27754ddd62b"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"method"</span><span class="p">:</span><span class="s2">"PUT"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"uri"</span><span class="p">:</span><span class="s2">"/order"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"params"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"body"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"orders"</span><span class="p">:[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+               </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc"</span><span class="p">,</span><span class="w">
+               </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd"</span><span class="p">,</span><span class="w">
+               </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">814.8</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+         </span><span class="p">]</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"nonce"</span><span class="p">:</span><span class="mi">1482348434637</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"current"</span><span class="p">:</span><span class="mi">1482348433200</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"order_update"</span><span class="p">,</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"result"</span><span class="p">:[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">814.8</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1482348434328077</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1482348364074468</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"entryOrder"</span><span class="p">:{</span><span class="w">
+               </span><span class="nt">"50192f40-c7b3-11e6-ba51-b8bd8cf25f84"</span><span class="p">:</span><span class="mi">1</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"STP"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mf">7.2</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"oco"</span><span class="p">:</span><span class="s2">"503eb8a1-c7b3-11e6-bbb6-4029c20f8e39"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"maxStop"</span><span class="p">:</span><span class="mi">814</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"entryPrice"</span><span class="p">:</span><span class="mf">822.3</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"entryAmount"</span><span class="p">:</span><span class="mf">822.3</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"cushion"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="kc">false</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"methodName"</span><span class="p">:</span><span class="s2">"updateOrders"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"requestid"</span><span class="p">:</span><span class="s2">"f91e424a-978f-4cd2-9f14-02e21d914908"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"topic"</span><span class="p">:</span><span class="s2">"order_update"</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p><a name="contract-cancel-order"></a></p>
+
+<h2 id="cancel-order-by-id">Cancel order by Id</h2>
+
+<h3 id="delete-api-v1-contract-symbol-order-uuid">DELETE /api/v1/contract/:symbol/order/:uuid</h3>
+<pre class="highlight plaintext"><code>DELETE /api/v1/contract/BTC1/order/adcb4c70-b72a-11e6-9b68-be1cfc0a27e0
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4
+Nonce: 1482347623909
 </code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>[
-   "order_patch",
-   {
-      "result":[
-         {
-            "op":"remove",
-            "path":"/19b3a371-c7b5-11e6-a305-6ee5416bea55",
-            "response":[
-               "19b3a371-c7b5-11e6-a305-6ee5416bea55"
-            ]
-         },
-         {
-            "op":"remove",
-            "path":"/0d71f940-c7b5-11e6-9906-9cd1c95275e5",
-            "response":[
-               "0d71f940-c7b5-11e6-9906-9cd1c95275e5"
-            ]
-         }
-      ],
-      "methodName":"patchOrders",
-      "requestid":"92569941-69d6-4c86-bafc-694558157a48",
-      "topic":"order_patch"
-   }
-]
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"DELETE /order"</span><span class="p">,</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"headers"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"requestid"</span><span class="p">:</span><span class="s2">"12ddc14b-4515-4361-846e-8bfbdd0c4951"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"authorization"</span><span class="p">:</span><span class="s2">"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"method"</span><span class="p">:</span><span class="s2">"DELETE"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"uri"</span><span class="p">:</span><span class="s2">"/order"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"params"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"body"</span><span class="p">:[</span><span class="w">
+         </span><span class="s2">"adcb4c70-b72a-11e6-9b68-be1cfc0a27e0"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"nonce"</span><span class="p">:</span><span class="mi">1482347623909</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"current"</span><span class="p">:</span><span class="mi">1482347622820</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p><a name="contract-cancel-all"></a></p>
+
+<h2 id="cancel-all-orders">Cancel All Orders</h2>
+
+<h3 id="delete-api-v1-contract-symbol-order">DELETE /api/v1/contract/:symbol/order</h3>
+<pre class="highlight plaintext"><code>DELETE /api/v1/contract/BTC1/order
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4
+Nonce: 1482347623909
+</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"DELETE /order"</span><span class="p">,</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"headers"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"requestid"</span><span class="p">:</span><span class="s2">"12ddc14b-4515-4361-846e-8bfbdd0c4951"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"authorization"</span><span class="p">:</span><span class="s2">"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"method"</span><span class="p">:</span><span class="s2">"DELETE"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"uri"</span><span class="p">:</span><span class="s2">"/order"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"params"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"body"</span><span class="p">:[</span><span class="w">
+         </span><span class="s2">"adcb4c70-b72a-11e6-9b68-be1cfc0a27e0"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"nonce"</span><span class="p">:</span><span class="mi">1482347623909</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"current"</span><span class="p">:</span><span class="mi">1482347622820</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"order_del"</span><span class="p">,</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"result"</span><span class="p">:[</span><span class="w">
+         </span><span class="s2">"adcb4c70-b72a-11e6-9b68-be1cfc0a27e0"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"methodName"</span><span class="p">:</span><span class="s2">"cancelOrder"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"requestid"</span><span class="p">:</span><span class="s2">"12ddc14b-4515-4361-846e-8bfbdd0c4951"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"topic"</span><span class="p">:</span><span class="s2">"order_del"</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p><a name="contract-patch-order"></a></p>
+
+<h2 id="combined-create-update-cancel">Combined create/update/cancel</h2>
+
+<h3 id="patch-contract-symbol-order">PATCH /contract/:symbol/order</h3>
+<pre class="highlight plaintext"><code>PATCH /api/v1/contract/BTC1/order
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
+Nonce: 1482349148300
+</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"PATCH /contract/BTC1/order"</span><span class="p">,</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"headers"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"requestid"</span><span class="p">:</span><span class="s2">"92569941-69d6-4c86-bafc-694558157a48"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"authorization"</span><span class="p">:</span><span class="s2">"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"method"</span><span class="p">:</span><span class="s2">"PATCH"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"uri"</span><span class="p">:</span><span class="s2">"/order"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"params"</span><span class="p">:{</span><span class="w">
+         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"body"</span><span class="p">:[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"op"</span><span class="p">:</span><span class="s2">"remove"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"path"</span><span class="p">:</span><span class="s2">"/19b3a371-c7b5-11e6-a305-6ee5416bea55"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"op"</span><span class="p">:</span><span class="s2">"remove"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"path"</span><span class="p">:</span><span class="s2">"/0d71f940-c7b5-11e6-9906-9cd1c95275e5"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"nonce"</span><span class="p">:</span><span class="mi">1482349148300</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"current"</span><span class="p">:</span><span class="mi">1482349147200</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"order_patch"</span><span class="p">,</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"result"</span><span class="p">:[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"op"</span><span class="p">:</span><span class="s2">"remove"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"path"</span><span class="p">:</span><span class="s2">"/19b3a371-c7b5-11e6-a305-6ee5416bea55"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"response"</span><span class="p">:[</span><span class="w">
+               </span><span class="s2">"19b3a371-c7b5-11e6-a305-6ee5416bea55"</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"op"</span><span class="p">:</span><span class="s2">"remove"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"path"</span><span class="p">:</span><span class="s2">"/0d71f940-c7b5-11e6-9906-9cd1c95275e5"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"response"</span><span class="p">:[</span><span class="w">
+               </span><span class="s2">"0d71f940-c7b5-11e6-9906-9cd1c95275e5"</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"methodName"</span><span class="p">:</span><span class="s2">"patchOrders"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"requestid"</span><span class="p">:</span><span class="s2">"92569941-69d6-4c86-bafc-694558157a48"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"topic"</span><span class="p">:</span><span class="s2">"order_patch"</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p><a name="contract-order-closed"></a></p>
+
+<h2 id="closed-filled-orders">Closed (filled) Orders</h2>
+
+<h3 id="get-api-v1-contract-symbol-order-closed">GET /api/v1/contract/:symbol/order/closed</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/contract/BTC1/order/closed
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
+Nonce: 1481651130426
 </code></pre>
-<p><a name="updateorder"></a></p>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6cc52580-bb0c-11e6-b831-df21626bb966"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"filled"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">752.2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">752.2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1480957272024245</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1480965089774447</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryOrder"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+    </span><span class="nt">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.8</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"clientid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6badc210-bb0c-11e6-b1b0-31a3e9373a6c"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"commission"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reward"</span><span class="p">:</span><span class="w"> </span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cushion"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"32e0eaf0-baa5-11e6-bb13-65d0268ef8f6"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"filled"</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">751.4</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">750.86666667</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1480915775617929</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1480915778107792</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryOrder"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"1f0c2a80-baa5-11e6-9558-951ab84e8daa"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"STP"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.6</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"oco"</span><span class="p">:</span><span class="w"> </span><span class="s2">"32e11200-baa5-11e6-a434-3f7d9d3258be"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"maxStop"</span><span class="p">:</span><span class="w"> </span><span class="mf">750.7</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"triggered"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">758</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryPrices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="mi">758</span><span class="p">,</span><span class="w">
+      </span><span class="mi">758</span><span class="p">,</span><span class="w">
+      </span><span class="mi">758</span><span class="p">,</span><span class="w">
+      </span><span class="mi">758</span><span class="p">,</span><span class="w">
+      </span><span class="mi">758</span><span class="p">,</span><span class="w">
+      </span><span class="mi">758</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"entryAmounts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="mi">15918</span><span class="p">,</span><span class="w">
+      </span><span class="mi">12886</span><span class="p">,</span><span class="w">
+      </span><span class="mi">9096</span><span class="p">,</span><span class="w">
+      </span><span class="mi">5306</span><span class="p">,</span><span class="w">
+      </span><span class="mi">4548</span><span class="p">,</span><span class="w">
+      </span><span class="mi">1516</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"entryAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"commission"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reward"</span><span class="p">:</span><span class="w"> </span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cushion"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p><a name="contract-order-cancelled"></a></p>
 
-<h2 id="put-order">PUT /order</h2>
+<h2 id="cancelled-orders-with-no-fills">Cancelled orders (with no fills)</h2>
 
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>[
-   "PUT /order",
-   {
-      "headers":{
-         "requestid":"f91e424a-978f-4cd2-9f14-02e21d914908",
-         "authorization":"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:26751dd64f75523257a3aeda5f2d59e68f4322500bcbc4beaa8ad27754ddd62b"
-      },
-      "method":"PUT",
-      "uri":"/order",
-      "params":{
-         "instrument":"BTC1"
-      },
-      "body":{
-         "orders":[
-            {
-               "uuid":"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc",
-               "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
-               "price":814.8
-            }
-         ]
-      },
-      "nonce":1482348434637,
-      "current":1482348433200
-   }
-]
+<h3 id="get-api-v1-contract-symbol-order-cancelled">GET /api/v1/contract/:symbol/order/cancelled</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/contract/BTC1/order/cancelled
+Nonce: 1481653294715
 </code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>[
-   "order_update",
-   {
-      "result":[
-         {
-            "uuid":"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc",
-            "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
-            "side":"sell",
-            "quantity":1,
-            "filled":0,
-            "cancelled":0,
-            "price":814.8,
-            "averagePrice":0,
-            "entryTime":1482348434328077,
-            "eventTime":1482348364074468,
-            "status":"open",
-            "entryOrder":{
-               "50192f40-c7b3-11e6-ba51-b8bd8cf25f84":1
-            },
-            "orderType":"STP",
-            "stopPrice":7.2,
-            "targetPrice":"NONE",
-            "instrument":"BTC1",
-            "oco":"503eb8a1-c7b3-11e6-bbb6-4029c20f8e39",
-            "maxStop":814,
-            "entryPrice":822.3,
-            "entryAmount":822.3,
-            "commission":10000,
-            "reward":-2500,
-            "cushion":1,
-            "reservedTicks":2,
-            "crossMargin":false
-         }
-      ],
-      "methodName":"updateOrders",
-      "requestid":"f91e424a-978f-4cd2-9f14-02e21d914908",
-      "topic":"order_update"
-   }
-]
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8a1cbe40-bb0c-11e6-b56f-e850d46d696a"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"filled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">745</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1480957321252323</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1480957321696555</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cancelled"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryOrder"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+    </span><span class="nt">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.7</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"clientid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"89064530-bb0c-11e6-b1b0-31a3e9373a6c"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cancelled self-matching order"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"commission"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reward"</span><span class="p">:</span><span class="w"> </span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cushion"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"32e11200-baa5-11e6-a434-3f7d9d3258be"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"filled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1480912936736294</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1480915778195181</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cancelled"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryOrder"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"1f0c2a80-baa5-11e6-9558-951ab84e8daa"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TGT"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">6.6</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"oco"</span><span class="p">:</span><span class="w"> </span><span class="s2">"32e0eaf0-baa5-11e6-bb13-65d0268ef8f6"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">758</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryPrices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="mi">758</span><span class="p">,</span><span class="w">
+      </span><span class="mi">758</span><span class="p">,</span><span class="w">
+      </span><span class="mi">758</span><span class="p">,</span><span class="w">
+      </span><span class="mi">758</span><span class="p">,</span><span class="w">
+      </span><span class="mi">758</span><span class="p">,</span><span class="w">
+      </span><span class="mi">758</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"entryAmounts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="mi">15918</span><span class="p">,</span><span class="w">
+      </span><span class="mi">12886</span><span class="p">,</span><span class="w">
+      </span><span class="mi">9096</span><span class="p">,</span><span class="w">
+      </span><span class="mi">5306</span><span class="p">,</span><span class="w">
+      </span><span class="mi">4548</span><span class="p">,</span><span class="w">
+      </span><span class="mi">1516</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"entryAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"commission"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reward"</span><span class="p">:</span><span class="w"> </span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cushion"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+
+</span></code></pre>
+<p><a name="contract-orderbook"></a></p>
+
+<h2 id="order-book">Order Book</h2>
+
+<h3 id="get-api-v1-contract-symbol-orderbook">GET /api/v1/contract/:symbol/orderbook</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/contract/BTC1/orderbook
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
+Nonce: 1480947259178
 </code></pre>
-<p><a name="deleteorder"></a></p>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"bid"</span><span class="p">:</span><span class="mi">748</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"ask"</span><span class="p">:</span><span class="mf">749.1</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"buy"</span><span class="p">:[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+         </span><span class="nt">"price"</span><span class="p">:</span><span class="mi">748</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"numberOfOrders"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"totalQuantity"</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+         </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">747.9</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"numberOfOrders"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"totalQuantity"</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">],</span><span class="w">
+   </span><span class="nt">"sell"</span><span class="p">:[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+         </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">749.1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"numberOfOrders"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"totalQuantity"</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+         </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">749.2</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"numberOfOrders"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"totalQuantity"</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><a name="contract-recent-trade"></a></p>
 
-<h2 id="delete-order">DELETE /order</h2>
+<h2 id="recent-trades">Recent Trades</h2>
 
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>[
-   "DELETE /order",
-   {
-      "headers":{
-         "requestid":"12ddc14b-4515-4361-846e-8bfbdd0c4951",
-         "authorization":"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4"
-      },
-      "method":"DELETE",
-      "uri":"/order",
-      "params":{
-         "instrument":"BTC1"
-      },
-      "body":[
-         "adcb4c70-b72a-11e6-9b68-be1cfc0a27e0"
-      ],
-      "nonce":1482347623909,
-      "current":1482347622820
-   }
-]
+<h3 id="get-api-v1-contract-symbol-trade">GET /api/v1/contract/:symbol/trade</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/contract/BTC1/trade
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
+Nonce: 1480947260712
 </code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>[
-   "order_del",
-   {
-      "result":[
-         "adcb4c70-b72a-11e6-9b68-be1cfc0a27e0"
-      ],
-      "methodName":"cancelOrder",
-      "requestid":"12ddc14b-4515-4361-846e-8bfbdd0c4951",
-      "topic":"order_del"
-   }
-]
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"date"</span><span class="p">:</span><span class="mi">1480965360</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">752.1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"volume"</span><span class="p">:</span><span class="mi">1</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"date"</span><span class="p">:</span><span class="mi">1480965089</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">752.2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"volume"</span><span class="p">:</span><span class="mi">3</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"date"</span><span class="p">:</span><span class="mi">1480915778</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">751.7</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"volume"</span><span class="p">:</span><span class="mi">2</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"date"</span><span class="p">:</span><span class="mi">1480915777</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">750.7</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"volume"</span><span class="p">:</span><span class="mi">4</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"date"</span><span class="p">:</span><span class="mi">1480895098</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">767.5</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"volume"</span><span class="p">:</span><span class="mi">2</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"date"</span><span class="p">:</span><span class="mi">1480496266</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">739.9</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"volume"</span><span class="p">:</span><span class="mi">5</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p><a name="account"></a></p>
+
+<h2 id="user-account">User account</h2>
+
+<h3 id="get-api-v1-account">GET /api/v1/account</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/account
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
+Nonce: 1480947266323
 </code></pre>
-<p><a name="createorder"></a></p>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"orders"</span><span class="p">:[</span><span class="w">
 
-<h2 id="post-order">POST /order</h2>
+   </span><span class="p">],</span><span class="w">
+   </span><span class="nt">"positions"</span><span class="p">:{</span><span class="w">
 
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>[
-   "POST /order",
-   {
-      "headers":{
-         "requestid":"7ad8b572-0b4b-4ea2-a2fb-261130ec5b13",
-         "authorization":"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84"
-      },
-      "method":"POST",
-      "uri":"/order",
-      "params":{
-         "instrument":"BTC1"
-      },
-      "body":[
-         {
-            "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
-            "side":"sell",
-            "quantity":1,
-            "price":790,
-            "orderType":"LMT",
-            "clientid":"de12c110-c616-11e6-8cd0-fbf50c0d0231",
-            "stopPrice":30.6,
-            "crossMargin":false,
-            "targetPrice":"NONE",
-            "postOnly":false,
-            "instrument":"BTC1"
-         }
-      ],
-      "nonce":1482171221212,
-      "current":1482171219873
-   }
-]
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"pnl"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"accountid"</span><span class="p">:</span><span class="s2">"2N8cxuZkeqMjufhP21M1hZexaPT2F8DZ87r"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"pnl"</span><span class="p">:</span><span class="mi">-18132500</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">242500</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"margin"</span><span class="p">:</span><span class="mi">67350920</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"displayMargin"</span><span class="p">:</span><span class="mi">67350920</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><a name="account-execution"></a></p>
+
+<h2 id="user-executions">User Executions</h2>
+
+<h3 id="get-api-v1-account-execution">GET /api/v1/account/execution</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/account/execution
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
+Nonce: 1480957451447
 </code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>[
-   "order_add",
-   {
-      "result":[
-         {
-            "uuid":"de730980-c616-11e6-948a-14e8eedc81d8",
-            "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
-            "side":"sell",
-            "quantity":1,
-            "filled":0,
-            "cancelled":0,
-            "price":790,
-            "averagePrice":0,
-            "entryTime":1482171220504726,
-            "eventTime":1482171220504726,
-            "status":"open",
-            "entryOrder":{
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
 
-            },
-            "orderType":"LMT",
-            "stopPrice":30.6,
-            "targetPrice":"NONE",
-            "clientid":"de12c110-c616-11e6-8cd0-fbf50c0d0231",
-            "instrument":"BTC1",
-            "commission":10000,
-            "reward":-2500,
-            "cushion":1,
-            "reservedTicks":2,
-            "crossMargin":false
-         }
-      ],
-      "methodName":"createOrders",
-      "requestid":"7ad8b572-0b4b-4ea2-a2fb-261130ec5b13",
-      "topic":"order_add"
-   }
-]
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p><a name="account-margin"></a></p>
+
+<h2 id="margin-account-balance">Margin account balance</h2>
+
+<h3 id="get-api-v1-account-margin">GET /api/v1/account/margin</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/account/margin
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
+Nonce: 1480957451447
 </code></pre>
-<p><a name="cancelledorder"></a></p>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"value"</span><span class="p">:</span><span class="mi">67350920</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><a name="account-margin-move"></a></p>
 
-<h2 id="get-cancelledorder">GET /cancelledorder</h2>
+<h2 id="add-margin-move-from-multisig-to-margin">Add Margin (Move from Multisig to Margin)</h2>
 
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-  "method": "GET",
-  "uri": "/api/cancelledorder?instrument=BTC1",
-  "nonce": 1481653294715
-}
+<h3 id="request-tbd">Request - TBD</h3>
+
+<h3 id="response-tbd">Response - TBD</h3>
+
+<p><a name="account-margin-clear"></a></p>
+
+<h2 id="clear-margin-move-to-multisig">Clear Margin (Move to Multisig)</h2>
+
+<h3 id="request-tbd">Request - TBD</h3>
+
+<h3 id="response-tbd">Response - TBD</h3>
+
+<p><a name="account-position"></a></p>
+
+<h2 id="user-positions">User positions</h2>
+
+<h3 id="get-api-v1-position">GET /api/v1/position</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/account/position
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
+Nonce: 1480965622146
 </code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>[
-  {
-    "uuid": "8a1cbe40-bb0c-11e6-b56f-e850d46d696a",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-    "side": "sell",
-    "quantity": 2,
-    "filled": 0,
-    "cancelled": 2,
-    "price": 745,
-    "averagePrice": 0,
-    "entryTime": 1480957321252323,
-    "eventTime": 1480957321696555,
-    "status": "cancelled",
-    "entryOrder": {},
-    "orderType": "LMT",
-    "stopPrice": 2.7,
-    "targetPrice": "NONE",
-    "clientid": "89064530-bb0c-11e6-b1b0-31a3e9373a6c",
-    "instrument": "BTC1",
-    "reason": "Cancelled self-matching order",
-    "commission": 10000,
-    "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
-  },
-  {
-    "uuid": "32e11200-baa5-11e6-a434-3f7d9d3258be",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-    "side": "sell",
-    "quantity": 21,
-    "filled": 0,
-    "cancelled": 21,
-    "price": "NONE",
-    "averagePrice": 0,
-    "entryTime": 1480912936736294,
-    "eventTime": 1480915778195181,
-    "status": "cancelled",
-    "entryOrder": {
-      "1f0c2a80-baa5-11e6-9558-951ab84e8daa": 1
-    },
-    "orderType": "TGT",
-    "stopPrice": 6.6,
-    "targetPrice": "NONE",
-    "instrument": "BTC1",
-    "oco": "32e0eaf0-baa5-11e6-bb13-65d0268ef8f6",
-    "entryPrice": 758,
-    "entryPrices": [
-      758,
-      758,
-      758,
-      758,
-      758,
-      758
-    ],
-    "entryAmounts": [
-      15918,
-      12886,
-      9096,
-      5306,
-      4548,
-      1516
-    ],
-    "entryAmount": 0,
-    "commission": 10000,
-    "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
-  },
-  {
-    "uuid": "80014020-baa3-11e6-b423-f75f085cca6a",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-    "side": "sell",
-    "quantity": 1,
-    "filled": 0,
-    "cancelled": 1,
-    "price": 770,
-    "averagePrice": 0,
-    "entryTime": 1480912302259708,
-    "eventTime": 1480912641177914,
-    "status": "cancelled",
-    "entryOrder": {
-      "7fd3c780-baa3-11e6-a50e-8b6fc221fc51": 1
-    },
-    "orderType": "TGT",
-    "stopPrice": 6.6,
-    "targetPrice": "NONE",
-    "instrument": "BTC1",
-    "oco": "80011910-baa3-11e6-8907-736af9d94f2e",
-    "entryPrice": 759.5,
-    "entryPrices": [
-      759.5
-    ],
-    "entryAmounts": [
-      759.5
-    ],
-    "entryAmount": 0,
-    "commission": 10000,
-    "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
-  },
-  {
-    "uuid": "62cbd561-baa3-11e6-8a90-403146e9015d",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-    "side": "buy",
-    "quantity": 1,
-    "filled": 0,
-    "cancelled": 1,
-    "price": "NONE",
-    "averagePrice": 0,
-    "entryTime": 1480912158135052,
-    "eventTime": 1480912203072774,
-    "status": "cancelled",
-    "entryOrder": {
-      "629fbc50-baa3-11e6-a9f5-5138da94a0f7": 1
-    },
-    "orderType": "TGT",
-    "stopPrice": 6.6,
-    "targetPrice": "NONE",
-    "instrument": "BTC1",
-    "oco": "62cbd560-baa3-11e6-a645-0efbbd423d0b",
-    "entryPrice": 758.4,
-    "entryPrices": [
-      758.4
-    ],
-    "entryAmounts": [
-      758.4
-    ],
-    "entryAmount": 0,
-    "commission": 10000,
-    "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
-  }
-]
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"BTC1"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mf">752.175</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"entryAmount"</span><span class="p">:</span><span class="mf">-3008.7</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">0</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><a name="account-pnl"></a></p>
 
+<h2 id="user-p-amp-l">User P&amp;L</h2>
+
+<h3 id="get-api-v1-account-pnl">GET /api/v1/account/pnl</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/account/pnl
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
+Nonce: 1480947263028
 </code></pre>
-<p><a name="closedorder"></a></p>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"pnl"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"accountid"</span><span class="p">:</span><span class="s2">"2N8cxuZkeqMjufhP21M1hZexaPT2F8DZ87r"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"pnl"</span><span class="p">:</span><span class="mi">-18132500</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">242500</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><a name="account-withdrawtx"></a></p>
 
-<h2 id="get-closedorder">GET /closedorder</h2>
+<h2 id="withdraw-from-multisig">Withdraw from Multisig</h2>
 
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-  "method": "GET",
-  "uri": "/api/closedorder?instrument=BTC1",
-  "nonce": 1481651130426
-}
+<h3 id="post-api-v1-account-withdrawtx">POST /api/v1/account/withdrawtx</h3>
+<pre class="highlight plaintext"><code>POST /api/withdrawtx
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
+Nonce: 1481654361400
 </code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>[
-  {
-    "uuid": "6cc52580-bb0c-11e6-b831-df21626bb966",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-    "side": "buy",
-    "quantity": 3,
-    "filled": 3,
-    "cancelled": 0,
-    "price": 752.2,
-    "averagePrice": 752.2,
-    "entryTime": 1480957272024245,
-    "eventTime": 1480965089774447,
-    "status": "closed",
-    "entryOrder": {},
-    "orderType": "LMT",
-    "stopPrice": 2.8,
-    "targetPrice": "NONE",
-    "clientid": "6badc210-bb0c-11e6-b1b0-31a3e9373a6c",
-    "instrument": "BTC1",
-    "commission": 10000,
-    "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
-  },
-  {
-    "uuid": "7cf5d9a0-bb0b-11e6-ad8c-feca0c133dfb",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-    "side": "buy",
-    "quantity": 1,
-    "filled": 1,
-    "cancelled": 0,
-    "price": 752.1,
-    "averagePrice": 752.1,
-    "entryTime": 1480956869690928,
-    "eventTime": 1480965360353987,
-    "status": "closed",
-    "entryOrder": {},
-    "orderType": "LMT",
-    "stopPrice": 2.8,
-    "targetPrice": "NONE",
-    "clientid": "7bdfd5c0-bb0b-11e6-91e6-571f03ad5182",
-    "instrument": "BTC1",
-    "commission": 10000,
-    "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
-  },
-  {
-    "uuid": "32e0eaf0-baa5-11e6-bb13-65d0268ef8f6",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-    "side": "sell",
-    "quantity": 21,
-    "filled": 21,
-    "cancelled": 0,
-    "price": 751.4,
-    "averagePrice": 750.86666667,
-    "entryTime": 1480915775617929,
-    "eventTime": 1480915778107792,
-    "status": "closed",
-    "entryOrder": {
-      "1f0c2a80-baa5-11e6-9558-951ab84e8daa": 1
-    },
-    "orderType": "STP",
-    "stopPrice": 6.6,
-    "targetPrice": "NONE",
-    "instrument": "BTC1",
-    "oco": "32e11200-baa5-11e6-a434-3f7d9d3258be",
-    "maxStop": 750.7,
-    "triggered": true,
-    "entryPrice": 758,
-    "entryPrices": [
-      758,
-      758,
-      758,
-      758,
-      758,
-      758
-    ],
-    "entryAmounts": [
-      15918,
-      12886,
-      9096,
-      5306,
-      4548,
-      1516
-    ],
-    "entryAmount": 0,
-    "commission": 10000,
-    "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
-  },
-  {
-    "uuid": "1f0c2a80-baa5-11e6-9558-951ab84e8daa",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-    "side": "buy",
-    "quantity": 50,
-    "filled": 21,
-    "cancelled": 29,
-    "price": 758,
-    "averagePrice": 758,
-    "entryTime": 1480912903465034,
-    "eventTime": 1480912939570371,
-    "status": "closed",
-    "entryOrder": {},
-    "orderType": "LMT",
-    "stopPrice": 6.6,
-    "targetPrice": "NONE",
-    "clientid": "1e1b3ad0-baa5-11e6-85b2-d75a18795b36",
-    "instrument": "BTC1",
-    "commission": 10000,
-    "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
-  },
-  {
-    "uuid": "80011910-baa3-11e6-8907-736af9d94f2e",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-    "side": "sell",
-    "quantity": 1,
-    "filled": 1,
-    "cancelled": 0,
-    "price": 752.9,
-    "averagePrice": 758.1,
-    "entryTime": 1480912207138010,
-    "eventTime": 1480912641075168,
-    "status": "closed",
-    "entryOrder": {
-      "7fd3c780-baa3-11e6-a50e-8b6fc221fc51": 1
-    },
-    "orderType": "STP",
-    "stopPrice": 6.6,
-    "targetPrice": "NONE",
-    "instrument": "BTC1",
-    "oco": "80014020-baa3-11e6-b423-f75f085cca6a",
-    "maxStop": 752.1,
-    "flatten": true,
-    "entryPrice": 759.5,
-    "entryPrices": [
-      759.5
-    ],
-    "entryAmounts": [
-      759.5
-    ],
-    "entryAmount": 0,
-    "commission": 10000,
-    "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
-  }
-]
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"txid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"67b69d42fd8f6c7e233513513642110e81a6fd4ae6f1b70f07f49d803cc2c274"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><a name="account-recoverytx"></a></p>
+
+<h2 id="recovery-transaction">Recovery Transaction</h2>
+
+<h3 id="get-api-v1-account-recoverytx">GET /api/v1/account/recoverytx</h3>
+<pre class="highlight plaintext"><code>GET /api/v1/account/recoverytx
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
+Nonce: 1480947265266
 </code></pre>
-<p><a name="trade"></a></p>
-
-<h2 id="get-trade">GET /trade</h2>
-
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-   "method":"GET",
-   "uri":"/api/trade?instrument=BTC1",
-   "nonce":1480947260712
-}
-</code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>[
-   {
-      "date":1480965360,
-      "price":752.1,
-      "volume":1
-   },
-   {
-      "date":1480965089,
-      "price":752.2,
-      "volume":3
-   },
-   {
-      "date":1480915778,
-      "price":751.7,
-      "volume":2
-   },
-   {
-      "date":1480915777,
-      "price":750.7,
-      "volume":4
-   },
-   {
-      "date":1480895098,
-      "price":767.5,
-      "volume":2
-   },
-   {
-      "date":1480496266,
-      "price":739.9,
-      "volume":5
-   }
-]
-</code></pre>
-<p><a name="recoverytx"></a></p>
-
-<h2 id="get-recoverytx">GET /recoverytx</h2>
-
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-   "method":"GET",
-   "uri":"/api/recoverytx",
-   "nonce":1480947265266
-}
-</code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>{
-   "tx":"01000000018d348442ac8fa041d6bf9bf1f99f701e2d46f703d7f90f3bbc3fb6e1c39865c2020000009300483045022100ae2678cb72ae04da31dce7867f02da35a16a352f838857dfa96567ed457635f702203fa6c8d610ed3cdd31821b00145408ffceab7c6a127d69a45fac6a8d4a185d2c010047522102453b9f78cf1d254840c8a7b87a058a665db0c1c51cc3edd33ff0ef3be98fb6842102babd831e59837b55a1e37ee48bcc928516c72baabff06afdfb0ab963b826414652aeffffffff017a2de400000000001976a9146b3fdb05dcf753ccbb377371beeba58d6c263a1788ac00000000"
-}
-</code></pre>
-<p><a name="pnl"></a></p>
-
-<h2 id="get-pnl">GET /pnl</h2>
-
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-   "method":"GET",
-   "uri":"/api/pnl",
-   "nonce":1480947263028
-}
-</code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>{
-   "pnl":{
-      "userid":"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-      "accountid":"2N8cxuZkeqMjufhP21M1hZexaPT2F8DZ87r",
-      "pnl":-18132500,
-      "commission":242500
-   }
-}
-</code></pre>
-<p><a name="userdetails"></a></p>
-
-<h2 id="get-userdetails">GET /userdetails</h2>
-
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-   "method":"GET",
-   "uri":"/api/userdetails",
-   "nonce":1480947266323
-}
-</code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>{
-   "orders":[
-
-   ],
-   "positions":{
-
-   },
-   "pnl":{
-      "userid":"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-      "accountid":"2N8cxuZkeqMjufhP21M1hZexaPT2F8DZ87r",
-      "pnl":-18132500,
-      "commission":242500
-   },
-   "margin":67350920,
-   "displayMargin":67350920
-}
-</code></pre>
-<p><a name="spec"></a></p>
-
-<h2 id="get-spec">GET /spec</h2>
-
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-   "method":"GET",
-   "uri":"/api/spec",
-   "nonce":1480947264503
-}
-</code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>{
-   "instruments":{
-      "all":{
-         "Trading Hours":"24x7x365",
-         "Listed Contracts":"Continuous",
-         "Settlement Method":"Financial",
-         "Termination of trading":"None, Automatic rollover",
-         "Settlement Procedure":"P&amp;L Equivalent BTC credited/debited to account",
-         "Position Limits":"None at present. May be instituted as needed",
-         "Price Limit or circuit":"None at present. May be instituted as needed"
-      },
-      "BTC1":{
-         "Contract Unit":"BTC/USD",
-         "Minimum price fluctuation":"0.1 USD = 0.0001 BTC",
-         "Quote currency":"USD",
-         "Type":"Quanto",
-         "Margin &amp; PNL currency":"BTC",
-         "BTC value of 1 contract":"Price &amp;times; 0.001 BTC",
-         "USD value of 1 contract":"Price² &amp;times; 0.001 BTC",
-         "BTC P&amp;L of 1 contract":"(SellPrice - BuyPrice) &amp;times; 0.001 BTC",
-         "Approx Leverage":"Price &amp;times; 0.001 BTC / Margin&lt;br&gt; Example: 422 &amp;times; 0.001 / (0.0001 &amp;times; 20) = 211 &lt;br&gt;approx. Price &amp;times; 10/(stop_ticks+10)",
-         "Spot Anchor Price":"Spot anchor price is median of OKCoin, BitFinex and Bitstamp BTC/USD real-time spot price"
-      }
-   },
-   "parameter":{
-      "BTC1":{
-         "symbol":"BTC1",
-         "commission":10000,
-         "reward":-2500,
-         "margin":2100000,
-         "stopcushion":1,
-         "stopprice":1,
-         "targetprice":2,
-         "crossMarginInitialStop":10,
-         "ticksize":1,
-         "ticksperpoint":10,
-         "tickvalue":10000,
-         "bandUpperLimit":2,
-         "bandLowerLimit":2,
-         "introducerReward":500,
-         "introducedReward":1000,
-         "rewardsCalculationInterval":1440,
-         "minMarketStop":1.6,
-         "minLimitStop":1.6,
-         "uplDecimalPlaces":4
-      }
-   }
-}
-</code></pre>
-<p><a name="position"></a></p>
-
-<h2 id="get-position">GET /position</h2>
-
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>   "method":"GET",
-   "uri":"/api/position",
-   "nonce":1480965622146
-}
-</code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>{
-   "BTC1":{
-      "userid":"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-      "instrument":"BTC1",
-      "averagePrice":752.175,
-      "quantity":4,
-      "entryAmount":-3008.7,
-      "commission":0
-   }
-}
-</code></pre>
-<p><a name="margin"></a></p>
-
-<h2 id="get-margin">GET /margin</h2>
-
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-   "method":"GET",
-   "uri":"/api/margin",
-   "nonce":1480947261484
-}
-</code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>{
-   "value":67350920
-}
-</code></pre>
-<p><a name="order"></a></p>
-
-<h2 id="get-order">GET /order</h2>
-
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-   "method":"GET",
-   "uri":"/api/order?instrument=BTC1",
-   "nonce":1480957451447
-}
-</code></pre>
-<h3 id="response">Response:</h3>
-<pre class="highlight plaintext"><code>[
-   {
-      "uuid":"7cf5d9a0-bb0b-11e6-ad8c-feca0c133dfb",
-      "userid":"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-      "side":"buy",
-      "quantity":1,
-      "filled":0,
-      "cancelled":0,
-      "price":752.1,
-      "averagePrice":0,
-      "entryTime":1480956869690928,
-      "eventTime":1480956869690928,
-      "status":"open",
-      "entryOrder":{
-
-      },
-      "orderType":"LMT",
-      "stopPrice":2.8,
-      "targetPrice":"NONE",
-      "clientid":"7bdfd5c0-bb0b-11e6-91e6-571f03ad5182",
-      "instrument":"BTC1",
-      "commission":10000,
-      "reward":-2500,
-      "cushion":1,
-      "reservedTicks":2,
-      "crossMargin":false
-   },
-   {
-      "uuid":"6cc52580-bb0c-11e6-b831-df21626bb966",
-      "userid":"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-      "side":"buy",
-      "quantity":3,
-      "filled":0,
-      "cancelled":0,
-      "price":752.2,
-      "averagePrice":0,
-      "entryTime":1480957272024245,
-      "eventTime":1480957272024245,
-      "status":"open",
-      "entryOrder":{
-
-      },
-      "orderType":"LMT",
-      "stopPrice":2.8,
-      "targetPrice":"NONE",
-      "clientid":"6badc210-bb0c-11e6-b1b0-31a3e9373a6c",
-      "instrument":"BTC1",
-      "commission":10000,
-      "reward":-2500,
-      "cushion":1,
-      "reservedTicks":2,
-      "crossMargin":false
-   }
-]
-</code></pre>
-<p><a name="orderbook"></a></p>
-
-<h2 id="get-orderbook">GET /orderbook</h2>
-
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-   "method":"GET",
-   "uri":"/api/orderbook?instrument=BTC1",
-   "nonce":1480947259178
-}
-</code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>{
-   "bid":748,
-   "ask":749.1,
-   "buy":[
-      {
-         "price":748,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":747.9,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":747.8,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":747.7,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":747.6,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":747.5,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":747.4,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":747.3,
-         "numberOfOrders":1,
-         "totalQuantity":2,
-         "instrument":"BTC1"
-      },
-      {
-         "price":747.2,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":747.1,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":747,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":746.9,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":746.8,
-         "numberOfOrders":1,
-         "totalQuantity":4,
-         "instrument":"BTC1"
-      },
-      {
-         "price":746.7,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":746.6,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":746.5,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":746.4,
-         "numberOfOrders":1,
-         "totalQuantity":3,
-         "instrument":"BTC1"
-      },
-      {
-         "price":746.3,
-         "numberOfOrders":1,
-         "totalQuantity":3,
-         "instrument":"BTC1"
-      },
-      {
-         "price":746.2,
-         "numberOfOrders":1,
-         "totalQuantity":4,
-         "instrument":"BTC1"
-      },
-      {
-         "price":746.1,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":741,
-         "numberOfOrders":1,
-         "totalQuantity":10,
-         "instrument":"BTC1"
-      },
-      {
-         "price":739.9,
-         "numberOfOrders":1,
-         "totalQuantity":10,
-         "instrument":"BTC1"
-      },
-      {
-         "price":580.6,
-         "numberOfOrders":1,
-         "totalQuantity":1,
-         "instrument":"BTC1"
-      },
-      {
-         "price":"NONE",
-         "numberOfOrders":1,
-         "totalQuantity":7,
-         "instrument":"BTC1"
-      }
-   ],
-   "sell":[
-      {
-         "price":749.1,
-         "numberOfOrders":2,
-         "totalQuantity":6,
-         "instrument":"BTC1"
-      },
-      {
-         "price":749.2,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":749.3,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":749.4,
-         "numberOfOrders":1,
-         "totalQuantity":3,
-         "instrument":"BTC1"
-      },
-      {
-         "price":749.5,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":749.6,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":749.7,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":749.8,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":749.9,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":750,
-         "numberOfOrders":1,
-         "totalQuantity":1,
-         "instrument":"BTC1"
-      },
-      {
-         "price":750.1,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":750.2,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":750.3,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":750.4,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":750.5,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":750.6,
-         "numberOfOrders":1,
-         "totalQuantity":4,
-         "instrument":"BTC1"
-      },
-      {
-         "price":750.7,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":750.8,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":750.9,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":751,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":751.1,
-         "numberOfOrders":1,
-         "totalQuantity":5,
-         "instrument":"BTC1"
-      },
-      {
-         "price":"NONE",
-         "numberOfOrders":1,
-         "totalQuantity":1,
-         "instrument":"BTC1"
-      }
-   ]
-}
-</code></pre>
-<p><a name="withdrawtx"></a></p>
-
-<h2 id="post-withdrawtx">POST /withdrawtx</h2>
-
-<h3 id="request">Request</h3>
-<pre class="highlight plaintext"><code>{
-  "method": "POST",
-  "uri": "/api/withdrawtx",
-  "nonce": 1481654361400
-}
-</code></pre>
-<h3 id="response">Response</h3>
-<pre class="highlight plaintext"><code>{
-  "txid": "67b69d42fd8f6c7e233513513642110e81a6fd4ae6f1b70f07f49d803cc2c274"
-}
-</code></pre>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"tx"</span><span class="p">:</span><span class="s2">"01000000018d348442ac8fa041d6bf9bf1f99f701e2d46f703d7f90f3bbc3fb6e1c39865c2020000009300483045022100ae2678cb72ae04da31dce7867f02da35a16a352f838857dfa96567ed457635f702203fa6c8d610ed3cdd31821b00145408ffceab7c6a127d69a45fac6a8d4a185d2c010047522102453b9f78cf1d254840c8a7b87a058a665db0c1c51cc3edd33ff0ef3be98fb6842102babd831e59837b55a1e37ee48bcc928516c72baabff06afdfb0ab963b826414652aeffffffff017a2de400000000001976a9146b3fdb05dcf753ccbb377371beeba58d6c263a1788ac00000000"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">cURL</a>
+                <a href="#" data-language-name="shell">shell</a>
                 <a href="#" data-language-name="python">python</a>
                 <a href="#" data-language-name="javascript">javascript</a>
           </div>
