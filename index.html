@@ -128,8 +128,101 @@
             </div>
         <h1 id="introduction">Introduction</h1>
 
-<p>Coinpit REST and Websocket API enable access to all features of the platform. Trading platforms, Trading bots, market makers can create a complete platform on top of the Coinpit API</p>
+<p>Coinpit REST and Websocket API enable access to all features of the platform. Trading platforms, Trading bots, market makers can create a complete platform on top of the Coinpit API.</p>
 
+<h2 id="quickstart-using-coinpit-shell-coinpit-py">Quickstart using Coinpit shell: coinpit.py</h2>
+
+<p>The python package <code class="prettyprint">pycoinpit</code> enables a shell like interaction with the coinpit.io API and enables you to enter rest commands and have them translated to authenticated REST calls. The <code class="prettyprint">-p</code> or <code class="prettyprint">--pretty</code> option pretty-prints JSON responses. The <code class="prettyprint">-v</code> or <code class="prettyprint">--verbose</code> option in addition also dumps headers.</p>
+<pre class="highlight plaintext"><code>$ pip install pycoinpit
+
+$ coinpit.py -v -k mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj.json
+
+Using keyfile:  mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj.json
+
+Connected to  https://live.coinpit.me/api/v1
+Enter REST commands: METHOD path body. Enter quit to exit
+For more information: https://coinpit.io/api
+
+Examples:
+  GET /account
+  POST /contract/BTCUSD7J14/order/open [{"price":1201.2,"side":"buy","quantity":10,"orderType":"LMT"}]
+  PUT /contract/BTCUSD7J14/order/open [{"price":1201.3,"uuid":"b117ef30-1f50-11e7-b324-e2f410d2f5f7"}]
+  GET /contract/BTCUSD7J14/order/open
+  DELETE /contract/BTCUSD7J14/order/open/b117ef30-1f50-11e7-b324-e2f410d2f5f7
+
+mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj&gt;
+</code></pre>
+<p>REST commands may be entered at the prompt as HTTP method, url and optional body. The shell performs authenticated REST call and displays the result</p>
+<pre class="highlight plaintext"><code>mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj&gt;get /account
+</code></pre><pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">https://live.coinpit.me/api/v1/account</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.0</span>
+<span class="na">Nonce</span><span class="p">:</span> <span class="s">1492043473117</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:f6d59269584a86f7457e23c8c61e8aba4c5d9fca1fe800fd3536caa22a3348fd</span>
+</code></pre><pre class="highlight plaintext"><code>===================================
+
+200
+===================================
+</code></pre><pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"displayMargin"</span><span class="p">:</span><span class="mi">9414800</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"positions"</span><span class="p">:{},</span><span class="w">
+    </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"margin"</span><span class="p">:</span><span class="mi">9414800</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"orders"</span><span class="p">:{</span><span class="w">
+        </span><span class="nt">"BTCUSD7J14"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"6feea600-1fa7-11e7-883c-2b1c532b3fc4"</span><span class="p">:{</span><span class="w">
+                </span><span class="nt">"marginPerQty"</span><span class="p">:</span><span class="mi">27815</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1492018965601165</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"6feea600-1fa7-11e7-883c-2b1c532b3fc4"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J14"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"commission"</span><span class="p">:</span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryOrder"</span><span class="p">:{},</span><span class="w">
+                </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="mi">8325008</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">1201.2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1492018965601165</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"cushion"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">10</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nt">"6e2b84c0-1f50-11e7-92cc-28f73d89632f"</span><span class="p">:{</span><span class="w">
+                </span><span class="nt">"marginPerQty"</span><span class="p">:</span><span class="mi">27815</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1491981596429055</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"6e2b84c0-1f50-11e7-92cc-28f73d89632f"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J14"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"commission"</span><span class="p">:</span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryOrder"</span><span class="p">:{},</span><span class="w">
+                </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="mi">8325008</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">1201.2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1491981596429055</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"cushion"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">10</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"BTCUSD7J21"</span><span class="p">:{}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"accountMargin"</span><span class="p">:</span><span class="mi">9971100</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p><a name="sdk"></a></p>
 
 <h2 id="language-sdk-libraries">Language SDK/Libraries</h2>
@@ -142,7 +235,7 @@
 
 <h2 id="unified-javascript-rest-library">Unified javascript Rest library</h2>
 
-<p>The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a SCRIPT tag in HTML</p>
+<p>The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a <code class="prettyprint">SCRIPT</code> tag in HTML</p>
 
 <h3 id="in-browser">In Browser</h3>
 <pre class="highlight html"><code>  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"jquery.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
@@ -190,6 +283,14 @@
 To get a specific order with id <code class="prettyprint">123e4567-e89b-12d3-a456-426655440000</code> of contract <code class="prettyprint">BTC1</code>, the actual url would be</p>
 <pre class="highlight plaintext"><code>https://live.coinpit.io/api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 </code></pre>
+<h3 id="pagination">Pagination</h3>
+
+<p>All resources have a Type 1 UUID that also represent creation time. Requests return results in descending order of creation time. By default the most recent object is returned with a page size of 100. Use the query parameter <code class="prettyprint">from</code> to get data for the next page.</p>
+
+<p>Example: Get all executions AFTER 123e4567-e89b-12d3-a456-426655440000</p>
+<pre class="highlight plaintext"><code>
+https://live.coinpit.io/api/v1/contract/BTC1/executions?from=123e4567-e89b-12d3-a456-426655440000
+</code></pre>
 <h3 id="http-headers">HTTP headers</h3>
 
 <p>HTTP 1.1 requires <code class="prettyprint">Host</code> header. In the examples here, we have used testnet host <code class="prettyprint">live.coinpit.me</code>. For production use, you should change it to <code class="prettyprint">live.coinpit.io</code>. You also need <code class="prettyprint">Authorization</code> and <code class="prettyprint">Nonce</code> headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.</p>
@@ -206,13 +307,27 @@ To get a specific order with id <code class="prettyprint">123e4567-e89b-12d3-a45
 
 <h2 id="overview">Overview</h2>
 
-<p>Loginless requires you to set the Authorization header in HTTP for protected endpoints. This requires your public key and user id, which are in your json key file that you saved when you first visit the web site.</p>
+<p>Loginless requires you to set the Authorization header in HTTP for protected endpoints. This requires your public key and user id, which are in your JSON key file that you saved when you first visit the web site.</p>
 
+<h3 id="loginless-node-module">Loginless node module</h3>
+
+<p>Loginless node module will do all the handshake and authentication and enables interaction with REST and socket API transparently. This may be used from a browser using browserify.</p>
+<pre class="highlight plaintext"><code>var Loginless = require('loginless')
+var loginless = Loginless(coinpitUrl, "/api/v1")
+
+loginless.getServerKey(key.privateKey).then(function (serverResponse) {
+  loginless.rest.post()
+  loginless.socket.register() // listen to socket messages
+
+  Object.keys(socketCallbacks).forEach(function(topic) {
+    loginless.socket.on(topic, socketCallbacks[topic])
+  })
+</code></pre>
 <h3 id="authorization-and-nonce-headers">Authorization and Nonce headers</h3>
-<pre class="highlight plaintext"><code>Authorization HMAC &lt;user_id&gt;:&lt;hmac_sha256&gt;
-Nonce &lt;unix_time&gt;
-</code></pre><pre class="highlight plaintext"><code>Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
-Nonce 1478041315653
+<pre class="highlight plaintext"><code>Authorization: HMAC &lt;user_id&gt;:&lt;hmac_sha256&gt;
+Nonce: &lt;unix_time&gt;
+</code></pre><pre class="highlight plaintext"><code>Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
+Nonce: 1478041315653
 </code></pre>
 <h3 id="setup-ecdh">Setup ECDH</h3>
 
@@ -344,11 +459,6 @@ If your client does not have an accurate clock or you are on an unusually slow n
 <td><a href="#all-spec">/all/spec</a></td>
 <td>Get contract specs for all exchange traded instruments</td>
 </tr>
-<tr>
-<td>GET</td>
-<td><a href="#all-config">/all/config</a></td>
-<td>General Exchange configuration</td>
-</tr>
 </tbody></table>
 
 <h2 id="protected-rest-api-endpoints">Protected REST API endpoints</h2>
@@ -417,7 +527,7 @@ If your client does not have an accurate clock or you are on an unusually slow n
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="#contract-order-closed">/contract/:symbol/order/closed?after=uuid</a></td>
+<td><a href="#contract-order-closed">/contract/:symbol/order/closed?from=uuid</a></td>
 <td>Get my closed orders after a particular uuid. if uuid not provided, latest set of orders are returned</td>
 </tr>
 </tbody></table>
@@ -433,7 +543,7 @@ If your client does not have an accurate clock or you are on an unusually slow n
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="#contract-order-cancelled">/contract/:symbol/order/cancelled?after=uuid</a></td>
+<td><a href="#contract-order-cancelled">/contract/:symbol/order/cancelled?from=uuid</a></td>
 <td>Get my cancelled orders after a particular uuid. if uuid not provided, latest set of orders are returned</td>
 </tr>
 </tbody></table>
@@ -570,13 +680,13 @@ If your client does not have an accurate clock or you are on an unusually slow n
 </tr>
 </thead><tbody>
 <tr>
-<td>GET</td>
-<td><a href="#account-withdrawtx">/account/withdrawtx</a></td>
-<td></td>
+<td>POST</td>
+<td><a href="#account-withdrawtx">/account/tx/withdraw</a></td>
+<td>Send user signed withdrawal tx for server signature</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><a href="#account-recoverytx">/account/recoverytx</a></td>
+<td><a href="#account-recoverytx">/account/tx/recovery</a></td>
 <td>Get Server signed Multisig account Recovery TX</td>
 </tr>
 </tbody></table>
@@ -657,20 +767,50 @@ If your client does not have an accurate clock or you are on an unusually slow n
 </code></pre>
 <h3 id="200-ok">200 OK</h3>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"BTC1"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"vol24H"</span><span class="p">:{</span><span class="w">
-         </span><span class="nt">"qty"</span><span class="p">:</span><span class="mi">152</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"btc"</span><span class="p">:</span><span class="mf">115.8483</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"openInterest"</span><span class="p">:{</span><span class="w">
-         </span><span class="nt">"qty"</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"btc"</span><span class="p">:</span><span class="mf">5.261</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"lastPrice"</span><span class="p">:</span><span class="mf">751.7</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"indexPrice"</span><span class="p">:</span><span class="mf">748.6</span><span class="w">
-   </span><span class="p">}</span><span class="w">
+    </span><span class="nt">"BTCUSD7J21"</span><span class="p">:{</span><span class="w">
+        </span><span class="nt">"lastPrice"</span><span class="p">:</span><span class="mf">1218.2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"vol24H"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J21"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"btc"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"qty"</span><span class="p">:</span><span class="mi">0</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"bid"</span><span class="p">:</span><span class="mi">1223</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"ask"</span><span class="p">:</span><span class="mf">1224.1</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"indexPrice"</span><span class="p">:</span><span class="mf">1217.3</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"openInterest"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J21"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"btc"</span><span class="p">:</span><span class="mf">3.35991635</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"qty"</span><span class="p">:</span><span class="mi">40</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"BTCUSD7J14"</span><span class="p">:{</span><span class="w">
+        </span><span class="nt">"lastPrice"</span><span class="p">:</span><span class="mf">1216.9</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"vol24H"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J14"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"btc"</span><span class="p">:</span><span class="mf">2.95598808</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"qty"</span><span class="p">:</span><span class="mi">36</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"bid"</span><span class="p">:</span><span class="mf">1217.2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"ask"</span><span class="p">:</span><span class="mf">1217.9</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"indexPrice"</span><span class="p">:</span><span class="mf">1217.3</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"openInterest"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J14"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"btc"</span><span class="p">:</span><span class="mf">2.30003528</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"qty"</span><span class="p">:</span><span class="mi">28</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"BTCUSD"</span><span class="p">:{</span><span class="w">
+        </span><span class="nt">"aggregate"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"vol24H"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"btc"</span><span class="p">:</span><span class="mf">2.95598808</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"qty"</span><span class="p">:</span><span class="mi">36</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"openInterest"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"btc"</span><span class="p">:</span><span class="mf">5.65995163</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"qty"</span><span class="p">:</span><span class="mi">68</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"indexPrice"</span><span class="p">:</span><span class="mf">1217.3</span><span class="w">
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p><a name="all-band"></a></p>
@@ -684,36 +824,18 @@ If your client does not have an accurate clock or you are on an unusually slow n
 </code></pre>
 <h3 id="200-ok">200 OK</h3>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"BTCUSD7G24"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1057.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mf">1047.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mf">1067.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD7G24"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"BTC1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1057.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mf">1055.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mf">1059.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC1"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"BTCUSD7H03"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1057.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mf">1047.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mf">1067.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD7H03"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"MBTCUSD7G190245"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1057.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mf">1047.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mf">1067.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MBTCUSD7G190245"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"MBTCUSD7G190250"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1057.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mf">1047.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mf">1067.1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MBTCUSD7G190250"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+    </span><span class="nt">"BTCUSD7J14"</span><span class="p">:{</span><span class="w">
+        </span><span class="nt">"max"</span><span class="p">:</span><span class="mf">1227.7</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">1217.7</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J14"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"min"</span><span class="p">:</span><span class="mf">1207.7</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"BTCUSD7J21"</span><span class="p">:{</span><span class="w">
+        </span><span class="nt">"max"</span><span class="p">:</span><span class="mf">1229.9</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">1217.7</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J21"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"min"</span><span class="p">:</span><span class="mf">1205.5</span><span class="w">
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
@@ -728,127 +850,70 @@ If your client does not have an accurate clock or you are on an unusually slow n
 </code></pre>
 <h3 id="200-ok">200 OK</h3>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"instruments"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"all"</span><span class="p">:{</span><span class="w">
-         </span><span class="nt">"Trading Hours"</span><span class="p">:</span><span class="s2">"24x7x365"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Listed Contracts"</span><span class="p">:</span><span class="s2">"Continuous"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Settlement Method"</span><span class="p">:</span><span class="s2">"Financial"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Termination of trading"</span><span class="p">:</span><span class="s2">"None, Automatic rollover"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Settlement Procedure"</span><span class="p">:</span><span class="s2">"P&amp;L Equivalent BTC credited/debited to account"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Position Limits"</span><span class="p">:</span><span class="s2">"None at present. May be instituted as needed"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Price Limit or circuit"</span><span class="p">:</span><span class="s2">"None at present. May be instituted as needed"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"BTC1"</span><span class="p">:{</span><span class="w">
-         </span><span class="nt">"Contract Unit"</span><span class="p">:</span><span class="s2">"BTC/USD"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Minimum price fluctuation"</span><span class="p">:</span><span class="s2">"0.1 USD = 0.0001 BTC"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Quote currency"</span><span class="p">:</span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Type"</span><span class="p">:</span><span class="s2">"Quanto"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Margin &amp; PNL currency"</span><span class="p">:</span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"BTC value of 1 contract"</span><span class="p">:</span><span class="s2">"Price &amp;times; 0.001 BTC"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"USD value of 1 contract"</span><span class="p">:</span><span class="s2">"Price² &amp;times; 0.001 BTC"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"BTC P&amp;L of 1 contract"</span><span class="p">:</span><span class="s2">"(SellPrice - BuyPrice) &amp;times; 0.001 BTC"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Approx Leverage"</span><span class="p">:</span><span class="s2">"Price &amp;times; 0.001 BTC / Margin&lt;br&gt; Example: 422 &amp;times; 0.001 / (0.0001 &amp;times; 20) = 211 &lt;br&gt;approx. Price &amp;times; 10/(stop_ticks+10)"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"Spot Anchor Price"</span><span class="p">:</span><span class="s2">"Spot anchor price is median of OKCoin, BitFinex and Bitstamp BTC/USD real-time spot price"</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-   </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"parameter"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"BTC1"</span><span class="p">:{</span><span class="w">
-         </span><span class="nt">"symbol"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">-2500</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"margin"</span><span class="p">:</span><span class="mi">2100000</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"stopcushion"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"stopprice"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"targetprice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"crossMarginInitialStop"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"ticksize"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"ticksperpoint"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"tickvalue"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"bandUpperLimit"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"bandLowerLimit"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"introducerReward"</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"introducedReward"</span><span class="p">:</span><span class="mi">1000</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"rewardsCalculationInterval"</span><span class="p">:</span><span class="mi">1440</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"minMarketStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"minLimitStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"uplDecimalPlaces"</span><span class="p">:</span><span class="mi">4</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-   </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p><a name="all-config"></a></p>
-
-<h2 id="exchange-contract-config">Exchange/Contract Config</h2>
-
-<h3 id="get-api-v1-all-config">GET /api/v1/all/config</h3>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/all/config</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">live.coinpit.me</span>
-</code></pre>
-<h3 id="200-ok">200 OK</h3>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"instrument"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"BTC1"</span><span class="p">:{</span><span class="w">
-         </span><span class="nt">"symbol"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">-2500</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"margin"</span><span class="p">:</span><span class="mi">2100000</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"stopcushion"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"stopprice"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"targetprice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"crossMarginInitialStop"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"ticksize"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"ticksperpoint"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"tickvalue"</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"bandUpperLimit"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"bandLowerLimit"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"introducerReward"</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"introducedReward"</span><span class="p">:</span><span class="mi">1000</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"rewardsCalculationInterval"</span><span class="p">:</span><span class="mi">1440</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"minMarketStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"minLimitStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"uplDecimalPlaces"</span><span class="p">:</span><span class="mi">4</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-   </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"default"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTC1"</span><span class="w">
-   </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"network"</span><span class="p">:</span><span class="s2">"testnet"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"maxInputs"</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"sendFundsTXfee"</span><span class="p">:</span><span class="mi">50000</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"sendFundsMaxTXfee"</span><span class="p">:</span><span class="mi">1000000</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"recoveryFeePerKB"</span><span class="p">:</span><span class="mi">25000</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"minimumFee"</span><span class="p">:</span><span class="mi">50000</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"maximumFee"</span><span class="p">:</span><span class="mi">150000</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"feePerKB"</span><span class="p">:</span><span class="mi">50000</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"feeCheckInterval"</span><span class="p">:</span><span class="mi">3600000</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"feeChangeTolerance"</span><span class="p">:</span><span class="mf">0.05</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"marginFeeThreshold"</span><span class="p">:</span><span class="mf">0.9</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"sliceSize"</span><span class="p">:</span><span class="mi">10000000</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"bitcoinDust"</span><span class="p">:</span><span class="mi">5430</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"sliceThreshold"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"maxOrdersCreateUpdate"</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"maxPositionsMerge"</span><span class="p">:</span><span class="mi">40</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"blockchainapi"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"provider"</span><span class="p">:</span><span class="s2">"insight"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"uri"</span><span class="p">:</span><span class="s2">"https://insight.coinpit.me/insight-api"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"socketuri"</span><span class="p">:</span><span class="s2">"https://insight.coinpit.me"</span><span class="w">
-   </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"links"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"blockcypher"</span><span class="p">:</span><span class="s2">"https://live.blockcypher.com/btc-testnet"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"blockexplorer"</span><span class="p">:</span><span class="s2">"https://testnet.blockexplorer.com"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"blocktrail"</span><span class="p">:</span><span class="s2">"https://www.blocktrail.com/tBTC"</span><span class="w">
-   </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"geofence"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"block"</span><span class="p">:[</span><span class="w">
-         </span><span class="s2">"UM"</span><span class="w">
-      </span><span class="p">],</span><span class="w">
-      </span><span class="nt">"valid"</span><span class="p">:[</span><span class="w">
-
-      </span><span class="p">]</span><span class="w">
-   </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"noSignup"</span><span class="p">:</span><span class="kc">false</span><span class="w">
+    </span><span class="nt">"instruments"</span><span class="p">:[</span><span class="w">
+        </span><span class="s2">"BTCUSD7J14"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"BTCUSD7J21"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"parameter"</span><span class="p">:{</span><span class="w">
+        </span><span class="nt">"BTCUSD7J14"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"maxLeverage"</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"expiryClass"</span><span class="p">:</span><span class="s2">"weekly"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"bandUpperLimit"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"minLimitStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"minMarketStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"bandLowerLimit"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"ticksize"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"uplDecimalPlaces"</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"start"</span><span class="p">:</span><span class="mi">1490980500000</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"next"</span><span class="p">:</span><span class="s2">"BTCUSD7J21"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"commission"</span><span class="p">:</span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"template"</span><span class="p">:</span><span class="s2">"BTCUSD"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"crossMarginInitialStop"</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"type"</span><span class="p">:</span><span class="s2">"inverse"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"introducerReward"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"targetprice"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"symbol"</span><span class="p">:</span><span class="s2">"BTCUSD7J14"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"expiry"</span><span class="p">:</span><span class="mi">1492190100000</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"contractusdvalue"</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"introducedReward"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"externalFeed"</span><span class="p">:</span><span class="s2">"coinpit-index#BTCUSD"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"stopcushion"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"ticksperpoint"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"stopprice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"rewardsCalculationInterval"</span><span class="p">:</span><span class="mi">14400</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">0</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"BTCUSD7J21"</span><span class="p">:{</span><span class="w">
+            </span><span class="nt">"maxLeverage"</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"expiryClass"</span><span class="p">:</span><span class="s2">"weekly"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"bandUpperLimit"</span><span class="p">:</span><span class="mf">0.01</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"minLimitStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"minMarketStop"</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"bandLowerLimit"</span><span class="p">:</span><span class="mf">0.01</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"ticksize"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"uplDecimalPlaces"</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"start"</span><span class="p">:</span><span class="mi">1491585300000</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"next"</span><span class="p">:</span><span class="s2">"BTCUSD7J28"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"commission"</span><span class="p">:</span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"template"</span><span class="p">:</span><span class="s2">"BTCUSD"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"crossMarginInitialStop"</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"type"</span><span class="p">:</span><span class="s2">"inverse"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"introducerReward"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"targetprice"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"symbol"</span><span class="p">:</span><span class="s2">"BTCUSD7J21"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"expiry"</span><span class="p">:</span><span class="mi">1492794900000</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"contractusdvalue"</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"introducedReward"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"externalFeed"</span><span class="p">:</span><span class="s2">"coinpit-index#BTCUSD"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"stopcushion"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"ticksperpoint"</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"stopprice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"rewardsCalculationInterval"</span><span class="p">:</span><span class="mi">14400</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">0</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p><a name="contract-chart"></a></p>
@@ -1141,6 +1206,36 @@ If your client does not have an accurate clock or you are on an unusually slow n
 
 <h2 id="combined-create-update-cancel">Combined create/update/cancel</h2>
 
+<p>The PATCH method uses the syntax for <a href="https://tools.ietf.org/html/rfc6902">RFC6902</a>. In addition to the standard ops, we have added <code class="prettyprint">merge</code> and <code class="prettyprint">split</code> for position management</p>
+
+<table><thead>
+<tr>
+<th>PATCH op</th>
+<th>Order operation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>add</td>
+<td>Create new order</td>
+</tr>
+<tr>
+<td>remove</td>
+<td>Delete order</td>
+</tr>
+<tr>
+<td>replace</td>
+<td>Update order</td>
+</tr>
+<tr>
+<td>split</td>
+<td>Split position</td>
+</tr>
+<tr>
+<td>merge</td>
+<td>Merge positions</td>
+</tr>
+</tbody></table>
+
 <h3 id="patch-contract-symbol-order">PATCH /contract/:symbol/order</h3>
 <pre class="highlight http"><code><span class="nf">PATCH</span> <span class="nn">/api/v1/contract/BTC1/order</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
@@ -1148,10 +1243,6 @@ If your client does not have an accurate clock or you are on an unusually slow n
 <span class="na">Authorization</span><span class="p">:</span> <span class="s">HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69</span>
 <span class="na">Nonce</span><span class="p">:</span> <span class="s">1482349148300</span>
 </code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
-   </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"op"</span><span class="p">:</span><span class="s2">"remove"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"path"</span><span class="p">:</span><span class="s2">"/19b3a371-c7b5-11e6-a305-6ee5416bea55"</span><span class="w">
-   </span><span class="p">},</span><span class="w">
    </span><span class="p">{</span><span class="w">
       </span><span class="nt">"op"</span><span class="p">:</span><span class="s2">"remove"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"path"</span><span class="p">:</span><span class="s2">"/0d71f940-c7b5-11e6-9906-9cd1c95275e5"</span><span class="w">
@@ -1535,20 +1626,15 @@ If your client does not have an accurate clock or you are on an unusually slow n
 </code></pre>
 <h3 id="200-ok">200 OK</h3>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"orders"</span><span class="p">:[</span><span class="w">
-
-   </span><span class="p">],</span><span class="w">
-   </span><span class="nt">"positions"</span><span class="p">:{</span><span class="w">
-
-   </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"pnl"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"accountid"</span><span class="p">:</span><span class="s2">"2N8cxuZkeqMjufhP21M1hZexaPT2F8DZ87r"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"pnl"</span><span class="p">:</span><span class="mi">-18132500</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"commission"</span><span class="p">:</span><span class="mi">242500</span><span class="w">
-   </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"margin"</span><span class="p">:</span><span class="mi">67350920</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"displayMargin"</span><span class="p">:</span><span class="mi">67350920</span><span class="w">
+    </span><span class="nt">"displayMargin"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"positions"</span><span class="p">:{},</span><span class="w">
+    </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mk1n8MGrgMEVRHuLarJ6W4MKuZG8CYfh8i"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"margin"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"orders"</span><span class="p">:{</span><span class="w">
+        </span><span class="nt">"BTCUSD7J14"</span><span class="p">:{},</span><span class="w">
+        </span><span class="nt">"BTCUSD7J21"</span><span class="p">:{}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"accountMargin"</span><span class="p">:</span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p><a name="account-execution"></a></p>
@@ -1690,8 +1776,8 @@ If your client does not have an accurate clock or you are on an unusually slow n
 
 <h2 id="withdraw-from-multisig">Withdraw from Multisig</h2>
 
-<h3 id="post-api-v1-account-withdrawtx">POST /api/v1/account/withdrawtx</h3>
-<pre class="highlight http"><code><span class="nf">POST</span> <span class="nn">/api/v1/account/withdrawtx</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<h3 id="post-api-v1-account-tx-withdraw">POST /api/v1/account/tx/withdraw</h3>
+<pre class="highlight http"><code><span class="nf">POST</span> <span class="nn">/api/v1/account/tx/withdraw</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">live.coinpit.me</span>
 <span class="na">Authorization</span><span class="p">:</span><span class="s">HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:8da600485b53e5ce4dacc9e302c8950d09376a1bbf3f30bfef3f78fdd42b252e</span>
@@ -1707,8 +1793,8 @@ If your client does not have an accurate clock or you are on an unusually slow n
 
 <h2 id="recovery-transaction">Recovery Transaction</h2>
 
-<h3 id="get-api-v1-account-recoverytx">GET /api/v1/account/recoverytx</h3>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/account/recoverytx</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<h3 id="get-api-v1-account-tx-recovery">GET /api/v1/account/tx/recovery</h3>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/account/tx/recovery</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">live.coinpit.me</span>
 <span class="na">Authorization</span><span class="p">:</span> <span class="s">HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69</span>
@@ -1719,6 +1805,465 @@ If your client does not have an accurate clock or you are on an unusually slow n
    </span><span class="nt">"tx"</span><span class="p">:</span><span class="s2">"01000000018d348442ac8fa041d6bf9bf1f99f701e2d46f703d7f90f3bbc3fb6e1c39865c2020000009300483045022100ae2678cb72ae04da31dce7867f02da35a16a352f838857dfa96567ed457635f702203fa6c8d610ed3cdd31821b00145408ffceab7c6a127d69a45fac6a8d4a185d2c010047522102453b9f78cf1d254840c8a7b87a058a665db0c1c51cc3edd33ff0ef3be98fb6842102babd831e59837b55a1e37ee48bcc928516c72baabff06afdfb0ab963b826414652aeffffffff017a2de400000000001976a9146b3fdb05dcf753ccbb377371beeba58d6c263a1788ac00000000"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+        <h1 id="socket-api">Socket API</h1>
+
+<p>The socket.io API can be used for high speed order management. Notifications of server-side events are also received through the socket interface. Socket API calls are also authenticated using the loginless zero-knowledge authentication system. The loginless socket API will transparently perform authenticated requests for you.</p>
+
+<h2 id="socket-request-and-response">Socket Request and Response</h2>
+
+<p>The Socket API uses the same request response format of the REST API but adds some additional envelope to pass headers. Since socket responses are asynchronous, supply a <code class="prettyprint">requestid</code> field in the <code class="prettyprint">headers</code> so you can co-relate the response.</p>
+
+<h3 id="request-serialization-format-create-order-sent-on-topic-post-order">Request Serialization Format (create order sent on topic <code class="prettyprint">POST /order</code>)</h3>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"requestid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13ca323b-c2a7-4359-ab35-4a6a1f1de7ea"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HMAC mjNCXZT2k8oYRRu4mrRwFfcFWZoF6J5hi2:41fbd3f4a0c28780e11232061c1ae872adbcf91c78961c2aee900c2a4c79309c"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Nonce"</span><span class="p">:</span><span class="w"> </span><span class="mi">1491177913277</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"POST"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/order"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD7J07"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mjNCXZT2k8oYRRu4mrRwFfcFWZoF6J5hi2"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">1103</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"clientid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9fdda9ee-667a-4341-b317-072a923a753a"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">19.7</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"postOnly"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="response-serialization-format-on-event-order_add">Response Serialization Format on event <code class="prettyprint">order_add</code></h3>
+
+<p>Responses also follow the REST format but have an additional envelope containing the <code class="prettyprint">requestid</code> and socket <code class="prettyprint">topic</code></p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"35cab340-1801-11e7-a281-495834a76145"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mjNCXZT2k8oYRRu4mrRwFfcFWZoF6J5hi2"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"filled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">1103</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">45330916</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1491177913461088</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1491177913461088</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"entryOrder"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+    </span><span class="nt">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">19.7</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"clientid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9fdda9ee-667a-4341-b317-072a923a753a"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD7J07"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"commission"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reward"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cushion"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"marginPerQty"</span><span class="p">:</span><span class="w"> </span><span class="mi">918953</span><span class="w">
+  </span><span class="p">}],</span><span class="w">
+  </span><span class="nt">"methodName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"createOrders"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"requestid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13ca323b-c2a7-4359-ab35-4a6a1f1de7ea"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"topic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order_add"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h2 id="loginless-socket">Loginless socket</h2>
+
+<p>The node.js and python loginless APIs will enable you to send and receive messages over socket transparently adding the necessary <code class="prettyprint">Authorization</code> and <code class="prettyprint">Nonce</code> headers and passes the request on the topic <code class="prettyprint">method + uri</code>.</p>
+
+<h3 id="registering-to-listen-to-events">Registering to listen to events</h3>
+
+<p>To request notifications for server and user events, register socket with server.</p>
+<pre class="highlight plaintext"><code>loginless.socket.register()
+</code></pre>
+<h3 id="stop-listening-to-events">Stop listening to events</h3>
+
+<p>To stop listening to events for this user, for example to change user account, unregister from the server</p>
+<pre class="highlight plaintext"><code>loginless.socket.unregister()
+// change account
+</code></pre>
+<h2 id="socket-order-management">Socket Order Management</h2>
+
+<p>All REST order management can also be done over sockets. The <code class="prettyprint">loginless.socket</code> library automatically adds <code class="prettyprint">Authorization</code> and <code class="prettyprint">Nonce</code> headers .</p>
+
+<h3 id="create-new-orders">Create New orders</h3>
+<pre class="highlight plaintext"><code>loginless.socket.send({
+  method: "POST",
+  uri: "/order",
+  headers: { requestid: '13ca323b-c2a7-4359-ab35-4a6a1f1de7ea' },
+  body: [{
+    "userid": "mjNCXZT2k8oYRRu4mrRwFfcFWZoF6J5hi2",
+    "side": "buy",
+    "quantity": 1,
+    "price": 1103,
+    "orderType": "LMT",
+    "clientid": "9fdda9ee-667a-4341-b317-072a923a753a",
+    "stopPrice": 19.7,
+    "crossMargin": false,
+    "targetPrice": "NONE",
+    "postOnly": false
+  }],
+  params: { instrument: 'BTCUSD7J14' }
+})
+</code></pre>
+<h3 id="update-orders">Update Orders</h3>
+<pre class="highlight plaintext"><code>  loginless.socket.send({
+    method: "PUT",
+    uri: "/order",
+    headers: { requestid: '09ca323b-c2a7-4359-ab35-4a6a1f1de7ea' },
+    body: [{
+      "price": 1103,
+      "clientid": "9fdda9ee-667a-4341-b317-072a923a753a",
+    }],
+    params: { instrument: BTCUSD7J14 }
+})
+</code></pre>
+<h3 id="patch-combined-create-delete-update">PATCH: Combined create/delete/update</h3>
+
+<p>The PATCH method uses the syntax for <a href="https://tools.ietf.org/html/rfc6902">RFC6902</a>. In addition to the standard ops, we have added <code class="prettyprint">merge</code> and <code class="prettyprint">split</code> for position management</p>
+
+<table><thead>
+<tr>
+<th>PATCH op</th>
+<th>Order operation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>add</td>
+<td>Create new order</td>
+</tr>
+<tr>
+<td>remove</td>
+<td>Delete order</td>
+</tr>
+<tr>
+<td>replace</td>
+<td>Update order</td>
+</tr>
+<tr>
+<td>split</td>
+<td>Split position</td>
+</tr>
+<tr>
+<td>merge</td>
+<td>Merge positions</td>
+</tr>
+</tbody></table>
+<pre class="highlight plaintext"><code>loginless.socket.send({
+  method: 'PATCH',
+  uri: '/order',
+  headers: { requestid: 'f4ca323b-c2a7-4359-ab35-4a6a1f1de7ea' },
+  body: [{
+        "op":"remove",
+        "path":"/0d71f940-c7b5-11e6-9906-9cd1c95275e5"
+     },
+     {
+         "op":"replace",
+         "value":[{
+                 "uuid":"cbf3a610-f6cd-11e6-bc1d-6c1a7dacf393",
+                 "price":1046.9
+             }]
+     },
+      {
+          "op":    "add",
+          "value": [{
+              "userid":      "mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
+              "side":        "buy",
+              "quantity":    1,
+              "price":       1035.3,
+              "orderType":   "LMT",
+              "clientid":    "b825ce03-fb16-4fd7-8fbe-e225803509a4",
+              "stopPrice":   4.2,
+              "crossMargin": false,
+              "targetPrice": "NONE",
+              "postOnly":    false
+            }]
+      }
+    ],
+    params: { instrument: BTCUSD7J14 }
+})
+</code></pre>
+<h3 id="merge-multiple-positions">Merge multiple positions</h3>
+<pre class="highlight plaintext"><code>loginless.socket.send({
+  method: 'PATCH',
+  uri: '/order',
+  headers: { requestid: 'bcda323b-c2a7-4359-ab35-4a6a1f1de7ea' },
+  body: [{
+    op: "merge",
+    from: ['0d71f940-c7b5-11e6-9906-9cd1c95275e5', 'cbf3a610-f6cd-11e6-bc1d-6c1a7dacf393']
+  }],
+  params: { instrument: BTCUSD7J14 }
+})
+</code></pre>
+<h3 id="split-positions">Split positions</h3>
+<pre class="highlight plaintext"><code>loginless.socket.send({
+  method: 'PATCH',
+  uri: '/order',
+  headers: { requestid: 'faaa323b-c2a7-4359-ab35-4a6a1f1de7ea' },
+  body: [{
+    op: "split",
+    from: 'cbf3a610-f6cd-11e6-bc1d-6c1a7dacf393',
+    quantity: 3
+  }],
+  params: { instrument: BTCUSD7J14 }
+})
+</code></pre>
+<h3 id="flatten-account-close-all-positions-and-orders">Flatten Account (Close all positions and orders)</h3>
+<pre class="highlight plaintext"><code>loginless.socket.send({
+  method: "DELETE",
+  uri: "/order",
+  headers: { requestid: '09de23b-c2a7-4359-ab35-4a6a1f1de7ea' },
+  body: [],
+  params: { instrument: BTCUSD7J14 }
+})
+</code></pre>
+<h2 id="socket-events">Socket Events</h2>
+
+<h3 id="general-sitewide-events">General Sitewide events</h3>
+
+<table><thead>
+<tr>
+<th>Event</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>advisory</td>
+<td>General advisory regarding exchange</td>
+</tr>
+<tr>
+<td>config</td>
+<td>Configuration has changed.</td>
+</tr>
+<tr>
+<td>readonly</td>
+<td>Server is in read-only maintenance mode.</td>
+</tr>
+<tr>
+<td>&lsquo;server-time&rsquo;</td>
+<td>Unix timestamp on server. Useful for adjusting clock skew if needed.</td>
+</tr>
+<tr>
+<td>upgrade</td>
+<td>App has upgraded</td>
+</tr>
+<tr>
+<td>version</td>
+<td>Version of the client code</td>
+</tr>
+</tbody></table>
+
+<h3 id="instrument-related-events">Instrument related events</h3>
+
+<table><thead>
+<tr>
+<th>Event</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>&#39;24hr_volume&rsquo;</td>
+<td>Volume over the last 24 hrs</td>
+</tr>
+<tr>
+<td>deliveryPrice</td>
+<td>Estimated delivery price</td>
+</tr>
+<tr>
+<td>difforderbook</td>
+<td>Quantity and size for changed prices only (real-time)</td>
+</tr>
+<tr>
+<td>orderbook</td>
+<td>Entire orderbook (every minute)</td>
+</tr>
+<tr>
+<td>priceband</td>
+<td>Trading Band where trades can take place</td>
+</tr>
+<tr>
+<td>instruments</td>
+<td>Current tradable instruments</td>
+</tr>
+<tr>
+<td>open_interest</td>
+<td>Open interest</td>
+</tr>
+<tr>
+<td>trade</td>
+<td>Execution data when a trade occurs.</td>
+</tr>
+</tbody></table>
+
+<h3 id="authentication-and-connection-related-events">Authentication and connection related events</h3>
+
+<table><thead>
+<tr>
+<th>Event</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>auth_error</td>
+<td>You are using the wrong key or your clock is off</td>
+</tr>
+<tr>
+<td>connect_error</td>
+<td>There was an error trying to connect</td>
+</tr>
+<tr>
+<td>connect_timeout</td>
+<td>Can&rsquo;t seem to reach server</td>
+</tr>
+<tr>
+<td>reconnect</td>
+<td>Attempting reconnect (usually after laptop is reopened)</td>
+</tr>
+<tr>
+<td>reconnect_error</td>
+<td>Failed to reconnect (bad wifi?)</td>
+</tr>
+<tr>
+<td>reconnect_failed</td>
+<td>Failed to reconnect (bad wifi?)</td>
+</tr>
+</tbody></table>
+
+<h3 id="account-related-events">Account related events</h3>
+
+<table><thead>
+<tr>
+<th>Event</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>account</td>
+<td>Your account info with margin, P&amp;L and orders</td>
+</tr>
+<tr>
+<td>affiliate</td>
+<td>Affiliate info</td>
+</tr>
+<tr>
+<td>settlement</td>
+<td>There has been an on-chain settlement</td>
+</tr>
+</tbody></table>
+
+<h3 id="trading-related-events">Trading related events</h3>
+
+<table><thead>
+<tr>
+<th>Event</th>
+<th>Meaning</th>
+<th>HTTP</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_add</td>
+<td>create order request</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>order_del</td>
+<td>delete order request</td>
+<td>DELETE</td>
+</tr>
+<tr>
+<td>order_error</td>
+<td>There was an error in your order</td>
+<td></td>
+</tr>
+<tr>
+<td>orders_del</td>
+<td>Deleting all orders</td>
+<td>DELETE</td>
+</tr>
+<tr>
+<td>order_update</td>
+<td>Update order request</td>
+<td>PUT</td>
+</tr>
+<tr>
+<td>order_patch</td>
+<td>Multi-operation request</td>
+<td>PATCH</td>
+</tr>
+<tr>
+<td>order_closed</td>
+<td>Order was filled completely</td>
+<td></td>
+</tr>
+<tr>
+<td>order_cancelled</td>
+<td>Order was cancelled</td>
+<td></td>
+</tr>
+<tr>
+<td>user_execution</td>
+<td>Order was filled partially or completely</td>
+<td></td>
+</tr>
+</tbody></table>
+
+        <h1 id="errors">Errors</h1>
+
+<aside class="notice">Always check error codes of HTTP requests. Do not assume success.</aside>
+
+<h2 id="the-coinpit-api-uses-the-standard-http-error-codes">The Coinpit API uses the standard HTTP error codes:</h2>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request &ndash; Usually syntax error in your HTTP request URI or headers</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized &ndash; You are using an unregistered private key or your clock in way off</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found &ndash; The specified resource could not be found</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed &ndash; Resource does not support that method. Eg. PUT on a GET only resource</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t JSON</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Gone &ndash; Resource no longer supported</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests &ndash; You have exceed the rate limit</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable &ndash; We&rsquo;re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+</tbody></table>
+
     </div>
       </div>
   </body>
