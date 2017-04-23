@@ -128,7 +128,7 @@
             </div>
         <h1 id="introduction">Introduction</h1>
 
-<p>Coinpit REST and Websocket API enable access to all features of the platform. Trading platforms, Trading bots, market makers can create a complete platform on top of the Coinpit API. The <a href="https://live.coinpit.io">live trading site</a> is also build entirely on this API and should be seen as one of the possible platform implementations.</p>
+<p>Coinpit REST and Websocket API enable access to all features of the platform. A complete and comprehensive platform on top of the Coinpit API comprising of Trading clients, Trading bots, etc. can be built on top of it. The <a href="https://live.coinpit.io">live trading site</a> is also built entirely using this API and should be seen as one of the many possible platform implementations.</p>
 
 <p><a name="sdk"></a></p>
 
@@ -145,7 +145,8 @@
 </code></pre>
 <h3 id="base-url">Base URL</h3>
 
-<p>The base url for all REST API is <code class="prettyprint">https://live.coinpit.io/api/v1</code>. To request an endpoint, append it to the base url and make a request.</p>
+<p>The base url for all REST API for the live site is <code class="prettyprint">https://live.coinpit.io/api/v1</code>. For testnet use <code class="prettyprint">https://live.coinpit.me</code>.
+To request an endpoint, append it to the base url and make a request.</p>
 
 <p>For example to access the <code class="prettyprint">/all/info</code> endpoint:</p>
 
@@ -184,15 +185,15 @@
 <h3 id="url-parameters">URL parameters</h3>
 
 <p>Url parameters are denoted by prepending a colon:</p>
-<pre class="highlight plaintext"><code>/contract/:symbol/order/:orderid
+<pre class="highlight plaintext"><code>/contract/:symbol/order/:uuid
 </code></pre>
-<p>The parameters <code class="prettyprint">:symbol</code> and <code class="prettyprint">:orderid</code> need to be filled in when making a REST call to server.
+<p>The parameters <code class="prettyprint">:symbol</code> and <code class="prettyprint">:uuid</code> need to be filled in when making a REST call to server.
 To get a specific order with id <code class="prettyprint">123e4567-e89b-12d3-a456-426655440000</code> of contract <code class="prettyprint">BTCUSDW</code>, the actual url would be</p>
 <pre class="highlight plaintext"><code>https://live.coinpit.io/api/v1/contract/BTCUSDW/order/123e4567-e89b-12d3-a456-426655440000
 </code></pre>
 <h3 id="pagination">Pagination</h3>
 
-<p>All resources have a Type-1 UUID that also represent creation time. Requests return results in descending order of creation time. By default the most recent object is returned with a page size of 100. Use the query parameter <code class="prettyprint">from</code> to get data for the next page.</p>
+<p>All resource objects have a Type-1 UUID that also represents creation time. Requests return results in descending order of creation time. By default the most recent object is returned with a page size of 100. Use the query parameter <code class="prettyprint">from</code> to get data for the next page.</p>
 
 <p>Example: If the last accessed page had the final item with uuid <code class="prettyprint">123e4567-e89b-12d3-a456-426655440000</code>, to get page with subsequent items:</p>
 <pre class="highlight plaintext"><code>https://live.coinpit.io/api/v1/contract/BTCUSDW/executions?from=123e4567-e89b-12d3-a456-426655440000
@@ -297,7 +298,7 @@ Nonce: &lt;unix_time&gt;
 <span class="nx">var</span> <span class="nx">loginless</span> <span class="o">=</span> <span class="nx">Loginless</span><span class="p">(</span><span class="nx">coinpitUrl</span><span class="p">,</span> <span class="s">"/api/v1"</span><span class="p">)</span>
 
 <span class="nx">loginless</span><span class="p">.</span><span class="na">getServerKey</span><span class="p">(</span><span class="nx">key</span><span class="p">.</span><span class="na">privateKey</span><span class="p">).</span><span class="na">then</span><span class="p">(</span><span class="nx">function</span> <span class="p">(</span><span class="nx">serverResponse</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">loginless</span><span class="p">.</span><span class="na">rest</span><span class="p">.</span><span class="na">post</span><span class="p">()</span>
+  <span class="nx">loginless</span><span class="p">.</span><span class="na">rest</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">"/aacount"</span><span class="p">)</span>
   <span class="nx">loginless</span><span class="p">.</span><span class="na">socket</span><span class="p">.</span><span class="na">register</span><span class="p">()</span> <span class="o">//</span> <span class="nx">listen</span> <span class="nx">to</span> <span class="nx">socket</span> <span class="nx">messages</span>
 
   <span class="nb">Object</span><span class="p">.</span><span class="na">keys</span><span class="p">(</span><span class="nx">socketCallbacks</span><span class="p">).</span><span class="na">forEach</span><span class="p">(</span><span class="nx">function</span><span class="p">(</span><span class="nx">topic</span><span class="p">)</span> <span class="p">{</span>
@@ -689,8 +690,8 @@ Nonce: &lt;unix_time&gt;
 </code></pre>
 <h3 id="200-ok">200 OK</h3>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-</span><span class="nt">"serverPublicKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7"</span><span class="p">,</span><span class="w">
-</span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk"</span><span class="w">
+  </span><span class="nt">"serverPublicKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p><a name="auth-register"></a></p>
@@ -1027,13 +1028,7 @@ Nonce: &lt;unix_time&gt;
 <span class="na">Host</span><span class="p">:</span> <span class="s">live.coinpit.me</span>
 <span class="na">Authorization</span><span class="p">:</span> <span class="s">HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84</span>
 <span class="na">Nonce</span><span class="p">:</span> <span class="s">1480957451447</span>
-</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"price"</span><span class="p">:</span><span class="mi">1201</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"76d015e0-27b2-11e7-8df2-8467e413f756"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
+</code></pre>
 <h3 id="200-ok">200 OK</h3>
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
@@ -1094,47 +1089,6 @@ Nonce: &lt;unix_time&gt;
     </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p><a name="open-order-uuid"></a></p>
-
-<h2 id="get-open-order">Get Open order</h2>
-
-<h3 id="get-order-uuid">GET /order/:uuid</h3>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/order/a5ab5320-27b2-11e7-96d8-d4ff6da48147</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">live.coinpit.me</span>
-<span class="na">Nonce</span><span class="p">:</span> <span class="s">1492903933116</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Authorization</span><span class="p">:</span> <span class="s">HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:c502bca25962efe4761d0a3c5eebd5558d1dc5425c6dbe37de4daaac8daa1acd</span>
-</code></pre>
-<h3 id="200-ok">200 OK</h3>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"clientid"</span><span class="p">:</span><span class="s2">"de12c110-c616-11e6-8cd0-fbf50c0d0231"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"marginPerQty"</span><span class="p">:</span><span class="mi">119512</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1492903389522334</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"a5ab5320-27b2-11e7-96d8-d4ff6da48147"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J28"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"commission"</span><span class="p">:</span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"entryOrder"</span><span class="p">:{},</span><span class="w">
-        </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="mi">8325008</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"price"</span><span class="p">:</span><span class="mf">1201.2</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1492903389522334</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"cushion"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">10</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
 <p><a name="open-create-order"></a></p>
 
 <h2 id="create-new-order">Create New Order</h2>
@@ -1186,7 +1140,7 @@ Nonce: &lt;unix_time&gt;
 
 <h2 id="update-orders">Update Orders</h2>
 
-<p>Only uuid fields that need to be changed should be sent. Only price can be updated at present.</p>
+<p>Only uuid and any fields that need to be changed should be sent. Only price can be updated at present. Non-changeable fields are ignored.</p>
 
 <h3 id="put-order">PUT /order</h3>
 <pre class="highlight http"><code><span class="nf">PUT</span> <span class="nn">/api/v1/order</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
@@ -1328,75 +1282,307 @@ Nonce: &lt;unix_time&gt;
 </span></code></pre>
 <h3 id="200-ok">200 OK</h3>
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
-   </span><span class="p">{</span><span class="w">
-     </span><span class="nt">"op"</span><span class="p">:</span><span class="s2">"remove"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"statusCode"</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"response"</span><span class="p">:[</span><span class="w">
-         </span><span class="s2">"19b3a371-c7b5-11e6-a305-6ee5416bea55"</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"op"</span><span class="p">:</span><span class="w"> </span><span class="s2">"remove"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+       </span><span class="s2">"19b3a371-c7b5-11e6-a305-6ee5416bea55"</span><span class="w">
+     </span><span class="p">]</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"op"</span><span class="p">:</span><span class="w"> </span><span class="s2">"replace"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"clientid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"de12c110-c616-11e6-8cd0-fbf50c0d0231"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"marginPerQty"</span><span class="p">:</span><span class="w"> </span><span class="mi">27815</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1492903310910487</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"76d015e0-27b2-11e7-8df2-8467e413f756"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD7J28"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"commission"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"entryOrder"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+        </span><span class="nt">"filled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">9090909</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">1100</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1492922049174770</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cushion"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"reward"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+          </span><span class="p">}</span><span class="w">
       </span><span class="p">]</span><span class="w">
    </span><span class="p">},</span><span class="w">
-   </span><span class="p">{</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"op"</span><span class="p">:</span><span class="w"> </span><span class="s2">"add"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16f9fe70-f6d8-11e6-ad01-e5a16988c694"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"filled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1035.3</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">1035.3</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1487531864023840</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1487531864023840</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"entryOrder"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+        </span><span class="nt">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"clientid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b825ce03-fb16-4fd7-8fbe-e225803509a4"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSDW"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"commission"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"reward"</span><span class="p">:</span><span class="w"> </span><span class="mi">-2500</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cushion"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h3 id="using-patch-to-merge-positions">Using PATCH to merge positions</h3>
+
+<p>To merge positions, send both target and stop orders. They will be replaced with new stop and target orders that represent the merged positions.</p>
+<pre class="highlight http"><code><span class="nf">PATCH</span> <span class="nn">https://live.coinpit.me/api/v1/order</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Nonce</span><span class="p">:</span> <span class="s">1492971955693</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:9b57b7587bf29dfbf52bace3fdae57af0c80d05b120480b348188bb523ef9c6c</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">live.coinpit.me</span>
+</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"0e7e3171-2852-11e7-8a16-02c2626c2a8d"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"0e7e0a60-2852-11e7-bb7e-abfa26cf11bc"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"c1a30d81-2851-11e7-aad7-a3395c142a31"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"c1a186e0-2851-11e7-ad2c-bb9f13d94d82"</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"op"</span><span class="p">:</span><span class="w"> </span><span class="s2">"merge"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"removed"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"0e7e3171-2852-11e7-8a16-02c2626c2a8d"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"0e7e0a60-2852-11e7-bb7e-abfa26cf11bc"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"c1a30d81-2851-11e7-aad7-a3395c142a31"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"c1a186e0-2851-11e7-ad2c-bb9f13d94d82"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"added"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"entryOrder"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+          </span><span class="nt">"normalizedEntryPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">7998720</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1492971955541792</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"entryAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">15998720</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4a338850-2852-11e7-b2da-c2f6adc59280"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"oco"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4a34e7e0-2852-11e7-9de9-eea2bd4eba38"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"commission"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"STP"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD7J28"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"maxStop"</span><span class="p">:</span><span class="w"> </span><span class="mi">1191</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"normalizedMaxStop"</span><span class="p">:</span><span class="w"> </span><span class="mi">8396306</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"filled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"entryPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">1250.2</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">8382230</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">1193</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1492971955541792</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"executionPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"reward"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"normalizedEntryPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">7998720</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1492971955550356</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"executionPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4a34e7e0-2852-11e7-9de9-eea2bd4eba38"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"oco"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4a338850-2852-11e7-b2da-c2f6adc59280"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"commission"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"orderType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TGT"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD7J28"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"entryOrder"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+          </span><span class="nt">"filled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"entryPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">1250.2</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="w"> </span><span class="mi">1492971955550356</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"entryAmount"</span><span class="p">:</span><span class="w"> </span><span class="mi">15998720</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"reward"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"op"</span><span class="p">:</span><span class="w"> </span><span class="s2">"merge"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h3 id="using-patch-to-split-a-position">Using PATCH to split a position</h3>
+
+<p>Send the UUID of the stop order representing the position to be split and the quantity to be split off.</p>
+<pre class="highlight http"><code><span class="nf">PATCH</span> <span class="nn">https://live.coinpit.me/api/v1/order</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Nonce</span><span class="p">:</span> <span class="s">1492972498305</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:d5d73c24cb0c27af9a33cd3c75d239232eb14b4c89e41af893b15f9b070c261c</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">live.coinpit.me</span>
+</code></pre><pre class="highlight json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"from"</span><span class="p">:</span><span class="s2">"4a338850-2852-11e7-b2da-c2f6adc59280"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"value"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"op"</span><span class="p">:</span><span class="s2">"split"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h3 id="200-ok">200 OK</h3>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
         </span><span class="nt">"statusCode"</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span><span class="w">
         </span><span class="nt">"response"</span><span class="p">:[</span><span class="w">
             </span><span class="p">{</span><span class="w">
-                </span><span class="nt">"clientid"</span><span class="p">:</span><span class="s2">"de12c110-c616-11e6-8cd0-fbf50c0d0231"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"marginPerQty"</span><span class="p">:</span><span class="mi">27815</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryOrder"</span><span class="p">:{},</span><span class="w">
+                </span><span class="nt">"normalizedEntryPrice"</span><span class="p">:</span><span class="mi">8000000</span><span class="p">,</span><span class="w">
                 </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1492903310910487</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"76d015e0-27b2-11e7-8df2-8467e413f756"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1492971955541792</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryAmount"</span><span class="p">:</span><span class="mi">8000000</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"4a338850-2852-11e7-b2da-c2f6adc59280"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"oco"</span><span class="p">:</span><span class="s2">"4a34e7e0-2852-11e7-9de9-eea2bd4eba38"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"commission"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"STP"</span><span class="p">,</span><span class="w">
                 </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J28"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"commission"</span><span class="p">:</span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"maxStop"</span><span class="p">:</span><span class="mi">1191</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"normalizedMaxStop"</span><span class="p">:</span><span class="mi">8396306</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryPrice"</span><span class="p">:</span><span class="mi">1250</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="mi">8382230</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"price"</span><span class="p">:</span><span class="mi">1193</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1492971955541792</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"executionPrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"reward"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">2</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"normalizedEntryPrice"</span><span class="p">:</span><span class="mi">8000000</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1492971955550356</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"executionPrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"4a34e7e0-2852-11e7-9de9-eea2bd4eba38"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"oco"</span><span class="p">:</span><span class="s2">"4a338850-2852-11e7-b2da-c2f6adc59280"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"commission"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"TGT"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J28"</span><span class="p">,</span><span class="w">
                 </span><span class="nt">"entryOrder"</span><span class="p">:{},</span><span class="w">
                 </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
                 </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="mi">9090909</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"price"</span><span class="p">:</span><span class="mi">1100</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1492922049174770</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"cushion"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryPrice"</span><span class="p">:</span><span class="mi">1250</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"price"</span><span class="p">:</span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1492971955550356</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryAmount"</span><span class="p">:</span><span class="mi">8000000</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
                 </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"reward"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">2</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"entryOrder"</span><span class="p">:{},</span><span class="w">
+                </span><span class="nt">"normalizedEntryPrice"</span><span class="p">:</span><span class="mi">7998080</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1492971955541792</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryAmount"</span><span class="p">:</span><span class="mi">7998720</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"8d922010-2853-11e7-997b-b25bafc1b51f"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"oco"</span><span class="p">:</span><span class="s2">"8d935890-2853-11e7-a538-a2590cde34ae"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"commission"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"STP"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J28"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"maxStop"</span><span class="p">:</span><span class="mi">1191</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"normalizedMaxStop"</span><span class="p">:</span><span class="mi">8396306</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryPrice"</span><span class="p">:</span><span class="mf">1250.3</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="mi">8382230</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"price"</span><span class="p">:</span><span class="mi">1193</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1492971955541792</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"executionPrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
                 </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj"</span><span class="p">,</span><span class="w">
                 </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"reward"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"reward"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
                 </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">10</span><span class="w">
+                </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">1</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"normalizedEntryPrice"</span><span class="p">:</span><span class="mi">7998080</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="mi">1492971955550356</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"executionPrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"uuid"</span><span class="p">:</span><span class="s2">"8d935890-2853-11e7-a538-a2590cde34ae"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"oco"</span><span class="p">:</span><span class="s2">"8d922010-2853-11e7-997b-b25bafc1b51f"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"commission"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"orderType"</span><span class="p">:</span><span class="s2">"TGT"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"instrument"</span><span class="p">:</span><span class="s2">"BTCUSD7J28"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryOrder"</span><span class="p">:{},</span><span class="w">
+                </span><span class="nt">"filled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryPrice"</span><span class="p">:</span><span class="mf">1250.3</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"price"</span><span class="p">:</span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="mi">1492971955550356</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"entryAmount"</span><span class="p">:</span><span class="mi">7998720</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"userid"</span><span class="p">:</span><span class="s2">"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"reward"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"side"</span><span class="p">:</span><span class="s2">"sell"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"quantity"</span><span class="p">:</span><span class="mi">1</span><span class="w">
             </span><span class="p">}</span><span class="w">
         </span><span class="p">],</span><span class="w">
-        </span><span class="nt">"op"</span><span class="p">:</span><span class="s2">"replace"</span><span class="w">
-     </span><span class="p">},</span><span class="w">
-     </span><span class="p">{</span><span class="w">
-       </span><span class="nt">"statusCode"</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"op"</span><span class="p">:</span><span class="w">       </span><span class="s2">"add"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-           </span><span class="p">{</span><span class="w">
-             </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w">            </span><span class="s2">"16f9fe70-f6d8-11e6-ad01-e5a16988c694"</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"userid"</span><span class="p">:</span><span class="w">          </span><span class="s2">"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd"</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"side"</span><span class="p">:</span><span class="w">            </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w">        </span><span class="mi">1</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"filled"</span><span class="p">:</span><span class="w">          </span><span class="mi">0</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"cancelled"</span><span class="p">:</span><span class="w">       </span><span class="mi">0</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"price"</span><span class="p">:</span><span class="w">           </span><span class="mf">1035.3</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"normalizedPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">1035.3</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"averagePrice"</span><span class="p">:</span><span class="w">    </span><span class="mi">0</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"entryTime"</span><span class="p">:</span><span class="w">       </span><span class="mi">1487531864023840</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"eventTime"</span><span class="p">:</span><span class="w">       </span><span class="mi">1487531864023840</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"status"</span><span class="p">:</span><span class="w">          </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"entryOrder"</span><span class="p">:</span><span class="w">      </span><span class="p">{},</span><span class="w">
-             </span><span class="nt">"orderType"</span><span class="p">:</span><span class="w">       </span><span class="s2">"LMT"</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"stopPrice"</span><span class="p">:</span><span class="w">       </span><span class="mf">4.2</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"targetPrice"</span><span class="p">:</span><span class="w">     </span><span class="s2">"NONE"</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"clientid"</span><span class="p">:</span><span class="w">        </span><span class="s2">"b825ce03-fb16-4fd7-8fbe-e225803509a4"</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w">      </span><span class="s2">"BTCUSDW"</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"commission"</span><span class="p">:</span><span class="w">      </span><span class="mi">20000</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"reward"</span><span class="p">:</span><span class="w">          </span><span class="mi">-2500</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"cushion"</span><span class="p">:</span><span class="w">         </span><span class="mi">1</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"reservedTicks"</span><span class="p">:</span><span class="w">   </span><span class="mi">2</span><span class="p">,</span><span class="w">
-             </span><span class="nt">"crossMargin"</span><span class="p">:</span><span class="w">     </span><span class="kc">false</span><span class="w">
-           </span><span class="p">}</span><span class="w">
-        </span><span class="p">]</span><span class="w">
-     </span><span class="p">}</span><span class="w">
+        </span><span class="nt">"op"</span><span class="p">:</span><span class="s2">"split"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p><a name="contract-order-id"></a></p>
@@ -1481,7 +1667,7 @@ Nonce: &lt;unix_time&gt;
 </span></code></pre>
 <p><a name="contract-order-closed"></a></p>
 
-<h2 id="closed-orders-including-partially-filled">Closed Orders (including partially filled)</h2>
+<h2 id="closed-orders-including-partially-cancelled">Closed Orders (including partially cancelled)</h2>
 
 <h3 id="get-contract-symbol-order-closed-from-uuid">GET /contract/:symbol/order/closed?from=:uuid</h3>
 <pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/contract/BTCUSDW/order/closed</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
@@ -2035,6 +2221,8 @@ Nonce: &lt;unix_time&gt;
 <span class="p">})</span>
 </code></pre>
 <h3 id="split-positions">Split positions</h3>
+
+<p>To split a 5 quantity position into 3 and 2:</p>
 <pre class="highlight coffeescript"><code><span class="nx">loginless</span><span class="p">.</span><span class="na">socket</span><span class="p">.</span><span class="na">send</span><span class="p">({</span>
   <span class="s">"method"</span><span class="o">:</span> <span class="s">"PATCH"</span><span class="p">,</span>
   <span class="s">"uri"</span><span class="o">:</span> <span class="s">"/order"</span><span class="p">,</span>
@@ -2042,7 +2230,7 @@ Nonce: &lt;unix_time&gt;
   <span class="s">"body"</span><span class="o">:</span> <span class="p">[{</span>
     <span class="s">"op"</span><span class="o">:</span> <span class="s">"split"</span><span class="p">,</span>
     <span class="s">"from"</span><span class="o">:</span> <span class="s">"cbf3a610-f6cd-11e6-bc1d-6c1a7dacf393"</span><span class="p">,</span>
-    <span class="s">"quantity"</span><span class="o">:</span> <span class="mi">3</span>
+    <span class="s">"value"</span><span class="o">:</span> <span class="mi">3</span>
   <span class="p">}]</span>
 <span class="p">})</span>
 </code></pre>
