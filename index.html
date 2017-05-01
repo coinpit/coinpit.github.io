@@ -2046,11 +2046,9 @@ Nonce: &lt;unix_time&gt;
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"POST"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/order"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD7J07"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
   </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
     </span><span class="nt">"userid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mjNCXZT2k8oYRRu4mrRwFfcFWZoF6J5hi2"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSDW"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buy"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">1103</span><span class="p">,</span><span class="w">
@@ -2124,6 +2122,7 @@ Nonce: &lt;unix_time&gt;
   <span class="na">headers</span><span class="o">:</span> <span class="p">{</span> <span class="s">"requestid"</span><span class="o">:</span> <span class="s">"13ca323b-c2a7-4359-ab35-4a6a1f1de7ea"</span> <span class="p">},</span>
   <span class="na">body</span><span class="o">:</span> <span class="p">[{</span>
     <span class="s">"userid"</span><span class="o">:</span> <span class="s">"mjNCXZT2k8oYRRu4mrRwFfcFWZoF6J5hi2"</span><span class="p">,</span>
+    <span class="s">"instrument"</span><span class="o">:</span> <span class="s">"BTCUSDW"</span><span class="p">,</span>
     <span class="s">"side"</span><span class="o">:</span> <span class="s">"buy"</span><span class="p">,</span>
     <span class="s">"quantity"</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s">"price"</span><span class="o">:</span> <span class="mi">1103</span><span class="p">,</span>
@@ -2182,33 +2181,38 @@ Nonce: &lt;unix_time&gt;
   <span class="s">"method"</span><span class="o">:</span> <span class="s">"PATCH"</span><span class="p">,</span>
   <span class="s">"uri"</span><span class="o">:</span> <span class="s">"/order"</span><span class="p">,</span>
   <span class="s">"headers"</span><span class="o">:</span> <span class="p">{</span> <span class="s">"requestid"</span><span class="o">:</span> <span class="s">"f4ca323b-c2a7-4359-ab35-4a6a1f1de7ea"</span> <span class="p">},</span>
-  <span class="s">"body"</span><span class="o">:</span> <span class="p">[{</span>
+  <span class="s">"body"</span><span class="o">:</span> <span class="p">[</span>
+     <span class="p">{</span>
         <span class="s">"op"</span><span class="o">:</span><span class="s">"remove"</span><span class="p">,</span>
-        <span class="s">"path"</span><span class="o">:</span><span class="s">"/0d71f940-c7b5-11e6-9906-9cd1c95275e5"</span>
+        <span class="s">"value"</span><span class="o">:</span> <span class="p">[</span><span class="s">"0d71f940-c7b5-11e6-9906-9cd1c95275e5"</span><span class="p">]</span>
      <span class="p">},</span>
      <span class="p">{</span>
          <span class="s">"op"</span><span class="o">:</span><span class="s">"replace"</span><span class="p">,</span>
-         <span class="s">"value"</span><span class="o">:</span><span class="p">[{</span>
-                 <span class="s">"uuid"</span><span class="o">:</span><span class="s">"cbf3a610-f6cd-11e6-bc1d-6c1a7dacf393"</span><span class="p">,</span>
-                 <span class="s">"price"</span><span class="o">:</span><span class="mf">1046.9</span>
-             <span class="p">}]</span>
+         <span class="s">"value"</span><span class="o">:</span><span class="p">[</span>
+             <span class="p">{</span>
+                 <span class="s">"uuid"</span><span class="o">:</span><span class="s">"76d015e0-27b2-11e7-8df2-8467e413f756"</span><span class="p">,</span>
+                 <span class="s">"price"</span><span class="o">:</span><span class="mi">1100</span>
+             <span class="p">}</span>
+         <span class="p">]</span>
      <span class="p">},</span>
-      <span class="p">{</span>
-          <span class="s">"op"</span><span class="o">:</span>    <span class="s">"add"</span><span class="p">,</span>
-          <span class="s">"value"</span><span class="o">:</span> <span class="p">[{</span>
-              <span class="s">"userid"</span><span class="o">:</span>      <span class="s">"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd"</span><span class="p">,</span>
-              <span class="s">"side"</span><span class="o">:</span>        <span class="s">"buy"</span><span class="p">,</span>
-              <span class="s">"quantity"</span><span class="o">:</span>    <span class="mi">1</span><span class="p">,</span>
-              <span class="s">"price"</span><span class="o">:</span>       <span class="mf">1035.3</span><span class="p">,</span>
-              <span class="s">"orderType"</span><span class="o">:</span>   <span class="s">"LMT"</span><span class="p">,</span>
-              <span class="s">"clientid"</span><span class="o">:</span>    <span class="s">"b825ce03-fb16-4fd7-8fbe-e225803509a4"</span><span class="p">,</span>
-              <span class="s">"stopPrice"</span><span class="o">:</span>   <span class="mf">4.2</span><span class="p">,</span>
-              <span class="s">"crossMargin"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
-              <span class="s">"targetPrice"</span><span class="o">:</span> <span class="s">"NONE"</span><span class="p">,</span>
-              <span class="s">"postOnly"</span><span class="o">:</span>    <span class="no">false</span>
-            <span class="p">}]</span>
-      <span class="p">}</span>
-    <span class="p">]</span>
+     <span class="p">{</span>
+         <span class="s">"op"</span><span class="o">:</span>    <span class="s">"add"</span><span class="p">,</span>
+         <span class="s">"value"</span><span class="o">:</span> <span class="p">[</span>
+           <span class="p">{</span>
+             <span class="s">"instrument"</span><span class="o">:</span> <span class="s">"BTCUSDW"</span><span class="p">,</span>
+             <span class="s">"side"</span><span class="o">:</span>        <span class="s">"buy"</span><span class="p">,</span>
+             <span class="s">"quantity"</span><span class="o">:</span>    <span class="mi">1</span><span class="p">,</span>
+             <span class="s">"price"</span><span class="o">:</span>       <span class="mf">1035.3</span><span class="p">,</span>
+             <span class="s">"orderType"</span><span class="o">:</span>   <span class="s">"LMT"</span><span class="p">,</span>
+             <span class="s">"clientid"</span><span class="o">:</span>    <span class="s">"b825ce03-fb16-4fd7-8fbe-e225803509a4"</span><span class="p">,</span>
+             <span class="s">"stopPrice"</span><span class="o">:</span>   <span class="mf">4.2</span><span class="p">,</span>
+             <span class="s">"crossMargin"</span><span class="o">:</span> <span class="no">false</span><span class="p">,</span>
+             <span class="s">"targetPrice"</span><span class="o">:</span> <span class="s">"NONE"</span><span class="p">,</span>
+             <span class="s">"postOnly"</span><span class="o">:</span>    <span class="no">false</span>
+           <span class="p">}</span>
+         <span class="p">]</span>
+     <span class="p">}</span>
+<span class="p">]</span>
 <span class="p">})</span>
 </code></pre>
 <h3 id="merge-multiple-positions">Merge multiple positions</h3>
